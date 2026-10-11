@@ -1,4 +1,5 @@
 import './style.css';
+import './pony-theme.css';
 import { splitSource, normalize, glossaryProblems, relevantTerms, buildMessages, requestTranslation, endpointURL } from './core.js';
 import { importTerms } from './import.js';
 const $ = id => document.getElementById(id);

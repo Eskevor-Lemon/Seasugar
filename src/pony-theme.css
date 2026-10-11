@@ -1,0 +1,155 @@
+/* A quiet writing desk in Ponyville. Artwork credit remains visible in the footer. */
+:root {
+  --green: #7660a7;
+  --line: #e3dcec;
+  --muted: #756c85;
+  color: #3d3451;
+  background: #f4f0fa;
+}
+body { position: relative; min-height: 100vh; }
+body::before {
+  content: ''; position: fixed; inset: 0; z-index: -1; pointer-events: none;
+  background: linear-gradient(180deg, #f7f2faee 0%, #f6f3fae8 42%, #eceaf6f5 100%), url('/art/ponyville.png') center / cover;
+}
+button { color: #695187; border-radius: 10px; }
+button:hover { background: #f1eafa; }
+input, select, textarea { color: #3d3451; border-radius: 9px; }
+input:focus, textarea:focus, select:focus, button:focus-visible, summary:focus-visible {
+  outline-color: #a087c4;
+}
+a { color: #76539e; }
+.site-header {
+  height: 84px; background: #fffdfce8; backdrop-filter: blur(14px);
+  border-bottom: 1px solid #e6ddef; position: relative;
+}
+.site-header::before {
+  content: ''; position: absolute; height: 3px; inset: 0 0 auto;
+  background: linear-gradient(90deg,#a883d3 0% 16.66%,#efa7c8 16.66% 33.33%,#f2d783 33.33% 50%,#a7d4ec 50% 66.66%,#c4b8e7 66.66% 83.33%,#ecb67d 83.33%);
+}
+.brand { color: #51416f; font-size: 20px; }
+.brand b { font-weight: 600; }
+.brand small { color: #887399; font-size: 10px; letter-spacing: 2.5px; }
+.brand-mark {
+  width: 45px; height: 48px; background: linear-gradient(145deg,#7660a7,#9a7cb8);
+  border-radius: 14px 14px 14px 5px; color: #fac4e6; box-shadow: 0 4px 12px #80609c25;
+}
+.brand-mark svg { width: 34px; height: 34px; }
+.local-badge { color: #796e88; }
+.local-badge:before { color: #a88ac1; }
+main { max-width: 1640px; padding-top: 28px; }
+.intro {
+  position: relative; isolation: isolate; overflow: hidden; min-height: 296px;
+  border: 1px solid #e7dfee; border-radius: 22px; padding: 32px 38px;
+  background: #f9f4fc; box-shadow: 0 12px 40px #6850860d;
+  align-items: center; margin-bottom: 26px;
+}
+.ponyville-art {
+  position: absolute; right: 0; top: 0; width: 72%; height: 100%;
+  object-fit: cover; object-position: center 55%; z-index: -2;
+}
+.intro::after {
+  content: ''; position: absolute; inset: 0; z-index: -1; pointer-events: none;
+  background: linear-gradient(90deg,#f9f4fc 0%,#f9f4fcfa 27%,#f9f4fce8 37%,#f9f4fc50 55%,transparent 76%);
+}
+.intro-copy { max-width: 60%; }
+.intro .eyebrow { color: #856497; font-size: 9px; letter-spacing: 1.4px; line-height: 1.6; }
+.intro .eyebrow span { font-size: 15px; margin-right: 6px; color: #c574aa; }
+h1 {
+  color: #55416f; font-family: "STKaiti","KaiTi","Noto Serif SC",serif;
+  font-size: 37px; letter-spacing: 3px; line-height: 1.35; margin: 13px 0 12px; font-weight: 600;
+}
+.intro p { color: #7c6989; line-height: 1.9; font-size: 13px; }
+.hero-note { margin-top: 17px; font-size: 10px; color: #947ba2; letter-spacing: .7px; }
+.hero-note span { color: #c282b2; margin-right: 5px; }
+.edition {
+  position: absolute; right: 20px; bottom: 20px; background: #fffdf4e8; color: #645b72;
+  border: 1px solid #ffffffb3; box-shadow: 0 3px 12px #38304710;
+  border-radius: 10px; padding: 11px 14px; font-size: 9px; letter-spacing: 1.2px;
+}
+.edition>span { color: #9671af; margin-right: 5px; }
+.edition small { display: block; margin-top: 5px; font-size: 10px; letter-spacing: 2px; }
+.toolbar { margin-bottom: 13px; }
+.direction-control select { color: #6b508a; background: #eee5f5; border: 1px solid #ddcde9; }
+.checkbox { color: #6d5a80; }
+.rule-badge { color: #857395; }
+.rule-badge::before { content: '✧'; color: #b987b4; margin-right: 5px; }
+.editors { border-radius: 16px; border-color: #e0d8e9; box-shadow: 0 12px 32px #6850860b; position: relative; }
+.editors::before {
+  content: ''; position: absolute; height: 3px; inset: 0 0 auto; pointer-events: none;
+  background: linear-gradient(90deg,#b397d0,#dda3cc,#edcbae,#b6dce3,#b7a5d9);
+}
+.editor-heading { background: #fdfbff; border-color: #eee7f4; }
+.editor-heading h2 { color: #5e487b; }
+.editor-heading h2 span { color: #998aaa; }
+.editor-heading h2::before { content: '✦'; color: #b99dd4; font-size: 11px; margin-right: 8px; }
+.output-pane { background: #fdfaff; }
+.output-pane .editor-heading h2::before { color: #d996c4; }
+.editor-pane textarea { height: 375px; color: #42384e; font-size: 15px; line-height: 2; }
+.editor-pane textarea::placeholder { color: #a395ae; }
+.editor-footer { color: #897a95; border-color: #eee7f4; background: #fefcff; }
+.text-button { color: #896aa4; }
+.primary {
+  color: #fff; background: linear-gradient(120deg,#7b5fa6,#9771b4); border-color: #8060a6;
+  box-shadow: 0 5px 14px #8160a52e; border-radius: 11px;
+}
+.primary:hover { background: #725293; box-shadow: 0 6px 18px #8160a540; }
+#status { color: #83728e; line-height: 1.6; }
+.panel { border-radius: 16px; border-color: #e2d9eb; background: #fffdfef5; box-shadow: 0 7px 24px #68508607; }
+.glossary { position: relative; overflow: hidden; }
+.glossary::before { content: ''; position: absolute; top: 0; left: 22px; width: 30px; height: 4px; background: #d9a5cc; border-radius: 0 0 5px 5px; }
+.eyebrow { color: #a17caf; }
+.count { background: #f0e7f5; color: #8f6ca6; }
+.section-heading>button { color: #9f75b5; background: #f8f2fb; border-color: #e6d7ef; }
+.upload-button { color: #9371a7; border-color: #cdb6df; background: #f6effa; border-radius: 10px; }
+.format-hint { color: #9b8ba6; }
+.glossary input[type=search] { background: #faf7fc; }
+.empty { color: #9a87a8; padding: 35px 0 25px; }
+.empty::before { content: '✧  ✦  ✧'; display: block; font-size: 23px; letter-spacing: 8px; color: #c4a4d6; margin-bottom: 15px; }
+.term { border-color: #efe8f4; }
+.style-panel summary { color: #6c5284; }
+.style-panel summary span { color: #a28aae; }
+.sidebar-note { color: #8e7b9e; }
+.partial-controls { color: #867095; }
+.notices { color: #94603e; }
+dialog { color: #4c3c5d; border-radius: 20px; }
+dialog::backdrop { background: #45325060; }
+footer { align-items: center; color: #8c779c; gap: 24px; padding-top: 24px; border-color: #e0d7e8; letter-spacing: .6px; }
+.footer-brand { font-size: 10px; color: #967aa8; }
+.footer-brand span { display: block; font-size: 9px; margin-top: 7px; color: #a28caf; }
+.art-credit { margin-left: auto; font-size: 10px; line-height: 1.8; text-align: right; }
+.art-credit a { color: #8c729e; }
+.art-credit small { display: block; font-size: 9px; color: #a18eaf; letter-spacing: .3px; }
+footer .github-link { margin-left: 0; white-space: nowrap; }
+@media(min-width:1500px) { .editor-pane textarea { height: 440px; } .intro { min-height: 315px; } }
+@media(max-width:1100px) { .intro { padding: 28px; } .intro .eyebrow { font-size: 8px; letter-spacing: 1px; } h1 { font-size: 34px; } }
+@media(max-width:800px) {
+  main { padding-top: 20px; }
+  .intro { min-height: 280px; padding: 25px; }
+  .intro-copy { max-width: 70%; }
+  .intro .eyebrow { max-width: 240px; }
+  .ponyville-art { width: 85%; }
+  .edition { display: block; right: 12px; bottom: 12px; font-size: 8px; padding: 8px 10px; }
+  .edition small { display: none; }
+  .editor-pane textarea { height: 330px; }
+  footer { flex-wrap: wrap; gap: 18px; }
+  .art-credit { order: 3; flex-basis: 100%; text-align: left; margin-left: 0; }
+  footer .github-link { margin-left: auto; }
+}
+@media(max-width:520px) {
+  .site-header { height: 76px; }
+  .brand { font-size: 16px; gap: 10px; }
+  .brand-mark { width: 38px; height: 42px; }
+  .brand-mark svg { width: 29px; height: 29px; }
+  .brand small { font-size: 9px; letter-spacing: 1.5px; }
+  .intro { min-height: 290px; border-radius: 17px; padding: 22px; }
+  .intro-copy { max-width: 91%; }
+  .intro::after { background: linear-gradient(90deg,#f9f4fcfa,#f9f4fce3 45%,#f9f4fc40); }
+  .ponyville-art { width: 100%; object-position: 64% center; }
+  .intro .eyebrow { max-width: 235px; font-size: 8px; }
+  h1 { font-size: 31px; }
+  .intro p { font-size: 12px; }
+  .hero-note { font-size: 9px; max-width: 180px; line-height: 1.8; }
+  .edition { font-size: 7px; padding: 7px; right: 10px; bottom: 10px; letter-spacing: .6px; }
+  .editor-pane textarea { height: 245px; }
+  .footer-brand span { display: block; }
+}
