@@ -1,0 +1,9 @@
+{
+  "name": "mlp-translation",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {"dev": "vite --host 127.0.0.1", "build": "vite build --base=./", "test": "node --test tests/*.test.js", "test:browser": "node tests/browser.mjs"},
+  "dependencies": {"fflate": "0.8.2"},
+  "devDependencies": {"vite": "7.1.12", "playwright": "1.62.1"}
+}
