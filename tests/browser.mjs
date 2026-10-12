@@ -6,6 +6,10 @@ const page = await browser.newPage({viewport:{width:1440,height:1000}});
 const errors=[];page.on('pageerror',e=>errors.push(e.message));page.on('dialog',d=>d.accept());
 try {
  await page.goto(process.env.TEST_URL || 'http://127.0.0.1:5173/');
+ assert.equal(await page.locator('#glossary-mode').inputValue(),'default');
+ await page.locator('#term-search').fill('Twilight Sparkle');
+ assert.ok((await page.locator('#terms').textContent()).includes('暮光闪闪'));
+ await page.locator('#glossary-mode').selectOption('custom');
  const upload=async(name,buffer)=>{await page.locator('#glossary-file').setInputFiles({name,mimeType:'application/octet-stream',buffer});await page.locator('#import-dialog').waitFor({state:'visible'});await page.locator('#confirm-import').click();};
  await upload('names.csv',Buffer.from('原文,译名\nMoztrot,莫扎蹄'));
  assert.equal(await page.locator('#term-count').textContent(),'1');
@@ -15,6 +19,10 @@ try {
  await upload('names.docx',Buffer.from(docx));
  const xlsx=zipSync({'xl/worksheets/sheet1.xml':strToU8('<worksheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main"><sheetData><row r="1"><c r="A1" t="inlineStr"><is><t>Fortepiano</t></is></c><c r="B1" t="inlineStr"><is><t>古钢琴</t></is></c></row></sheetData></worksheet>')});
  await upload('names.xlsx',Buffer.from(xlsx));assert.equal(await page.locator('#term-count').textContent(),'3');
+ await page.locator('#glossary-mode').selectOption('default');
+ assert.equal(await page.locator('#add-term').isVisible(),false);
+ await page.locator('#glossary-mode').selectOption('custom');
+ assert.equal(await page.locator('#term-count').textContent(),'3');
  await page.locator('#direction').selectOption('zh-en');assert.equal(await page.locator('#term-count').textContent(),'0');assert.equal(await page.locator('#only-label').textContent(),'只翻译中文');await page.locator('#direction').selectOption('en-zh');
  await page.locator('#settings-toggle').click();await page.locator('#model-preset').selectOption('custom');await page.locator('#api-base').fill('https://translation.example/v1');await page.locator('#model').fill('test-model');await page.locator('#api-key').fill('secret-for-testing');
  const requests=[];let responseIndex=0;let slow=false;

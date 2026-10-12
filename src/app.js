@@ -3,6 +3,7 @@ import './pony-theme.css';
 import { splitSource, normalize, glossaryProblems, relevantTerms, buildMessages, requestTranslation, endpointURL } from './core.js';
 import { importTerms } from './import.js';
 import { modelPresets } from './models.js';
+import { activeGlossary, initialGlossaryMode, wikiSource } from './glossary.js';
 const $ = id => document.getElementById(id);
 const storageKey = 'mlp-translation-v1';
 let saved = {};
@@ -11,12 +12,13 @@ const cleanTerms = items => Array.isArray(items) ? items.filter(t=>t && typeof t
 const glossaries = {'en-zh':cleanTerms(saved?.glossaries?.['en-zh']), 'zh-en':cleanTerms(saved?.glossaries?.['zh-en'])};
 let busy = false, controller, stopped = false, revision = 0, translatedSource = '', translatedDirection = '', pendingImport = [], notices = [];
 const direction = () => $('direction').value;
-const terms = () => glossaries[direction()];
+let glossaryMode=initialGlossaryMode(saved,glossaries);
+const terms = () => activeGlossary(glossaryMode,direction(),glossaries);
 function status(text) { $('status').textContent = text; }
 function showNotices() { $('notices').textContent = [...new Set(notices)].join('\n'); }
 function note(text) { notices.push(text); showNotices(); }
 function persist() {
-  try { localStorage.setItem(storageKey, JSON.stringify({glossaries, style:$('style').value, base:$('api-base').value, model:$('model').value, preset:$('model-preset').value, customConnection})); }
+  try { localStorage.setItem(storageKey, JSON.stringify({glossaries, glossaryMode, style:$('style').value, base:$('api-base').value, model:$('model').value, preset:$('model-preset').value, customConnection})); }
   catch { note('浏览器无法保存设置，请导出专名表备份。'); }
 }
 for (const [id, key] of [['style','style'],['api-base','base'],['model','model']]) {
@@ -78,10 +80,25 @@ function termChanged() {
 }
 function field(value, placeholder, oninput) {const input=document.createElement('input');input.value=value;input.placeholder=placeholder;input.setAttribute('aria-label',placeholder);input.oninput=()=>oninput(input.value);return input;}
 function renderTerms() {
+  const isDefault=glossaryMode==='default';
+  $('glossary-mode').value=glossaryMode;
+  $('add-term').hidden=isDefault;
+  $('custom-glossary-tools').hidden=isDefault;
+  $('wiki-credit').hidden=!isDefault;
+  $('glossary-description').textContent=isDefault?'采用小马灰机 Wiki 的角色译名。需要修改或上传译名表时，请切换到「自定义」。':'随时调整译名，下一段翻译即会采用。';
   const container=$('terms');container.replaceChildren();const search=normalize($('term-search').value);
   terms().forEach((term,index)=>{
     if(search && !normalize(`${term.source} ${term.target} ${term.aliases}`).includes(search))return;
     const item=document.createElement('div');item.className='term';
+    if(isDefault){
+      item.classList.add('default-term');
+      const source=document.createElement('strong');source.textContent=term.source;
+      const target=document.createElement('span');target.textContent=term.target;
+      const link=document.createElement('a');link.href=term.page;link.target='_blank';link.rel='noreferrer';link.textContent='词条 ↗';link.setAttribute('aria-label',`查看 ${term.source} 的 Wiki 词条`);
+      item.append(source,target,link);
+      if(term.aliases){const aliases=document.createElement('small');aliases.textContent=`别名：${term.aliases.split(';').join(' / ')}`;item.append(aliases);}
+      container.append(item);return;
+    }
     const fields=document.createElement('div');fields.className='term-fields';
     for(const [key,placeholder] of [['source','原文'],['target','译名']])fields.append(field(term[key],placeholder,v=>{term[key]=v;termChanged();}));
     const meta=document.createElement('div');meta.className='term-meta';meta.append(field(term.aliases,'别名（用 ; 分隔）',v=>{term.aliases=v;termChanged();}));
@@ -90,15 +107,20 @@ function renderTerms() {
     item.append(fields,meta,memo);container.append(item);
   });
   $('term-count').textContent=terms().length;$('empty-terms').hidden=terms().length>0;
+  $('no-term-matches').hidden=!search || container.childElementCount>0 || terms().length===0;
 }
+$('wiki-link').href=wikiSource.url;
+$('wiki-date').textContent=wikiSource.date;
+$('glossary-mode').onchange=()=>{glossaryMode=$('glossary-mode').value;$('term-search').value='';termChanged();renderTerms();status(`已切换到${glossaryMode==='default'?'默认专名表':'自定义专名表'}，下一段请求即会采用。`);};
 $('term-search').oninput=renderTerms;
-$('add-term').onclick=()=>{terms().push({source:'',target:'',aliases:'',note:''});$('term-search').value='';termChanged();renderTerms();$('terms').lastElementChild?.querySelector('input')?.focus();};
-$('export-glossary').onclick=()=>download(`译名表-${direction()}.json`,JSON.stringify({version:1,direction:direction(),terms:terms()},null,2),'application/json');
+$('add-term').onclick=()=>{if(glossaryMode!=='custom')return;terms().push({source:'',target:'',aliases:'',note:''});$('term-search').value='';termChanged();renderTerms();$('terms').lastElementChild?.querySelector('input')?.focus();};
+$('export-glossary').onclick=()=>download(`译名表-${glossaryMode}-${direction()}.json`,JSON.stringify({version:1,direction:direction(),...(glossaryMode==='default'?{attribution:'小马中文维基贡献者；部分译名来自 EquestriaCN、潮汐字幕社及其他译者',source:wikiSource.url,retrieved:wikiSource.date}:{}),terms:terms()},null,2),'application/json');
 $('direction').onchange=()=>{
   const en=direction()==='en-zh';$('only-label').textContent=en?'只翻译英文':'只翻译中文';$('source-lang').textContent=en?'ENGLISH':'中文';$('target-lang').textContent=en?'中文':'ENGLISH';
   $('term-search').value='';renderTerms();status('翻译方向已切换，专名表单独管理。');
 };
 $('glossary-file').onchange=async event=>{
+  if(glossaryMode!=='custom'){event.target.value='';return;}
   const file=event.target.files[0];if(!file)return;
   try {
     const result=await importTerms(file);
@@ -122,6 +144,7 @@ function renderImport() {
   });
 }
 $('confirm-import').onclick=()=>{
+  if(glossaryMode!=='custom')return;
   const selected=pendingImport.filter(t=>t.selected);
   if(selected.some(t=>!t.source.trim()||!t.target.trim())){alert('请补全选中词条的原文和译名。');return;}
   let added=0,updated=0,skipped=0;
