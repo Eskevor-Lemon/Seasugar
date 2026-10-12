@@ -157,3 +157,5 @@ footer .github-link { margin-left: 0; white-space: nowrap; }
   .editor-pane textarea { height: 245px; }
   .footer-brand span { display: block; }
 }
+
+.footer-brand .creator-credit { color: #705487; font-size: 12px; letter-spacing: 1px; }
