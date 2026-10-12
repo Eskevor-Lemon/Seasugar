@@ -2,6 +2,7 @@ import './style.css';
 import './pony-theme.css';
 import { splitSource, normalize, glossaryProblems, relevantTerms, buildMessages, requestTranslation, endpointURL } from './core.js';
 import { importTerms } from './import.js';
+import { modelPresets } from './models.js';
 const $ = id => document.getElementById(id);
 const storageKey = 'mlp-translation-v1';
 let saved = {};
@@ -15,13 +16,36 @@ function status(text) { $('status').textContent = text; }
 function showNotices() { $('notices').textContent = [...new Set(notices)].join('\n'); }
 function note(text) { notices.push(text); showNotices(); }
 function persist() {
-  try { localStorage.setItem(storageKey, JSON.stringify({glossaries, style:$('style').value, base:$('api-base').value, model:$('model').value})); }
+  try { localStorage.setItem(storageKey, JSON.stringify({glossaries, style:$('style').value, base:$('api-base').value, model:$('model').value, preset:$('model-preset').value, customConnection})); }
   catch { note('浏览器无法保存设置，请导出专名表备份。'); }
 }
 for (const [id, key] of [['style','style'],['api-base','base'],['model','model']]) {
   $(id).value = typeof saved?.[key] === 'string' ? saved[key] : '';
-  $(id).addEventListener('input',()=>{persist(); if(id==='api-base') destination();});
+  $(id).addEventListener('input',()=>{
+    if(id==='api-base') { $('api-key').value=''; destination(); }
+    if($('model-preset').value==='custom') customConnection={base:$('api-base').value,model:$('model').value};
+    persist();
+  });
 }
+let customConnection = saved?.customConnection && typeof saved.customConnection.base==='string' && typeof saved.customConnection.model==='string'
+  ? saved.customConnection : {base:typeof saved?.base==='string'?saved.base:'',model:typeof saved?.model==='string'?saved.model:''};
+for(const [id,preset] of Object.entries(modelPresets)) {
+  const option=document.createElement('option');option.value=id;option.textContent=preset.label;$('model-preset').append(option);
+}
+const customOption=document.createElement('option');customOption.value='custom';customOption.textContent='连接其他翻译模型（自定义）';$('model-preset').append(customOption);
+$('model-preset').value = Object.hasOwn(modelPresets,saved?.preset)?saved.preset:saved?.base?'custom':'gemini';
+function applyPreset() {
+  const preset=modelPresets[$('model-preset').value];
+  $('api-base').value=preset?.base || customConnection.base;
+  $('model').value=preset?.model || customConnection.model;
+  $('api-base').readOnly=!!preset;$('model').readOnly=!!preset;
+  $('preset-note').textContent=preset?.note || '填写兼容 Chat Completions 的 API 地址和模型名称；是否免费由你选择的服务商决定。';
+  $('preset-links').hidden=!preset;
+  if(preset){$('get-api-key').href=preset.keyURL;$('model-docs').href=preset.docsURL;}
+  destination();
+}
+applyPreset();
+$('model-preset').onchange=()=>{ $('api-key').value='';applyPreset();persist();status('模型已切换，请填写对应平台的 API Key。'); };
 function destination() {
   try { $('destination').textContent = new URL(endpointURL($('api-base').value)).origin; }
   catch { $('destination').textContent = '尚未设置有效地址'; }
@@ -106,7 +130,7 @@ $('confirm-import').onclick=()=>{
 };
 function setBusy(value){
   busy=value;
-  for(const id of ['translate','retranslate','direction','only-source','source-file','clear','api-base','api-key','model','style'])$(id).disabled=value;
+  for(const id of ['translate','retranslate','direction','only-source','source-file','clear','api-base','api-key','model','model-preset','style'])$(id).disabled=value;
   $('source').readOnly=value;$('output').readOnly=value;$('stop').hidden=!value;$('stop').disabled=false;
 }
 async function translate(partial=false){
@@ -117,6 +141,7 @@ async function translate(partial=false){
   const problems=glossaryProblems(terms());if(problems.length){status(problems[0]);return;}
   try{endpointURL($('api-base').value);}catch(e){$('settings-panel').hidden=false;status(e.message);return;}
   if(!$('model').value.trim()){ $('settings-panel').hidden=false;status('请先填写模型名称。');return; }
+  if($('model-preset').value!=='custom' && !$('api-key').value.trim()){ $('settings-panel').hidden=false;$('settings-toggle').setAttribute('aria-expanded','true');status('请填写所选模型对应平台的 API Key。');$('api-key').focus();return; }
   let selected=paragraphs, outputLines;
   if(partial){
     if(translatedSource!==text || translatedDirection!==direction()){status('原文或方向已变化，请重新进行完整翻译。');return;}

@@ -1,4 +1,8 @@
 /* A quiet writing desk in Ponyville. Artwork credit remains visible in the footer. */
+.model-picker { display: grid; gap: 8px; max-width: 450px; font-size: 13px; margin-top: 18px; }
+.model-picker select { width: 100%; }
+.preset-links { display: flex; gap: 20px; font-size: 12px; margin: 12px 0 20px; }
+.settings-grid input[readonly] { background: #f6f2fa; color: #84768e; }
 :root {
   --green: #7660a7;
   --line: #e3dcec;

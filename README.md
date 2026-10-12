@@ -21,7 +21,7 @@
 3. 选择翻译方向，导入或填写专名表，在左侧粘贴原文，点击「开始翻译」。
 4. 在右侧润色、复制或导出译文。关闭页面前请导出；本工具不保存原文与译文。
 
-工具不提供模型额度，也没有绑定模型服务。是否免费、可用地域及调用限制取决于服务商。GitHub Pages 无法运行服务器代理；如果服务商禁止 CORS，需要另行部署自己的代理。
+工具不提供模型额度；已预设 Gemini 3.5 Flash-Lite（Google 免费层）和 Gemma 4 31B（OpenRouter :free），也可以选择自定义连接。是否免费、可用地域及调用限制取决于服务商。GitHub Pages 无法运行服务器代理；如果服务商禁止 CORS，需要另行部署自己的代理。
 
 ## 译名表格式
 
@@ -79,4 +79,25 @@ API Key 不写入浏览器存储、代码或日志。专名表、风格要求、
 ## 界面素材
 
 小马谷背景使用画师 Hellswolfeh 的非 AI 矢量作品，已按其资源使用说明署名；来源、许可说明及处理方式见 [ASSETS.md](ASSETS.md)。页面采用暮光紫、六色细线与星芒装饰，编辑区域保持实底以便阅读。
+## 修改页面文案
 
+- `index.html`：页签标题、主标题、说明、按钮文字及输入框 placeholder。
+- `src/app.js`：进度、成功/错误提示等动态文案。
+- `src/models.js`：预设模型名称、接口和额度说明。
+- `src/core.js`：发给模型的翻译要求，不是普通页面文案。
+
+仅修改显示文字时，保留 HTML 标签以及 id、class、value 等属性。提交 main 后，Actions 会自动更新网站。
+
+## 预设模型
+
+2026-10-12 核对官方页面：
+
+- Gemini 3.5 Flash-Lite：`gemini-3.5-flash-lite`；https://ai.google.dev/gemini-api/docs/pricing
+- Gemma 4 31B：`google/gemma-4-31b-it:free`；https://openrouter.ai/google/gemma-4-31b-it:free
+- Gemini 兼容接口：https://ai.google.dev/gemini-api/docs/openai
+- Gemini 支持地区：https://ai.google.dev/gemini-api/docs/available-regions
+- OpenRouter 限制：https://openrouter.ai/docs/api/reference/limits
+
+用户需填写对应平台的密钥。Gemini 仅免费层享受免费额度，已启用计费的项目可能产生费用；免费层内容可能用于改进产品。OpenRouter 固定使用免费端点，额度耗尽后停止，不回退到付费模型。两者仍受地区、账户、限流与供应变化限制。预设不代表已完成真实文学翻译质量测试。
+
+切换连接选项会清空当前密钥；自定义地址与模型名称单独保留。密钥不写入 localStorage。
