@@ -1,6 +1,6 @@
 import './style.css';
 import './pony-theme.css';
-import { splitSource, normalize, glossaryProblems, relevantTerms, buildMessages, requestTranslation, endpointURL } from './core.js';
+import { splitSource, normalize, glossaryProblems, relevantTerms, buildMessages, requestTranslation, endpointURL, hasExpectedTranslation } from './core.js';
 import { importTerms } from './import.js';
 import { modelPresets } from './models.js';
 import { activeGlossary, initialGlossaryMode, wikiSource } from './glossary.js';
@@ -79,23 +79,29 @@ function termChanged() {
   showNotices();
 }
 function field(value, placeholder, oninput) {const input=document.createElement('input');input.value=value;input.placeholder=placeholder;input.setAttribute('aria-label',placeholder);input.oninput=()=>oninput(input.value);return input;}
+let termDisplayLimit=80;
 function renderTerms() {
   const isDefault=glossaryMode==='default';
   $('glossary-mode').value=glossaryMode;
   $('add-term').hidden=isDefault;
   $('custom-glossary-tools').hidden=isDefault;
   $('wiki-credit').hidden=!isDefault;
-  $('glossary-description').textContent=isDefault?'采用小马灰机 Wiki 的角色译名。需要修改或上传译名表时，请切换到「自定义」。':'随时调整译名，下一段翻译即会采用。';
+  $('glossary-description').textContent=isDefault?'按 Wiki 译名表：原配优先，空缺时采用国配；两栏均空缺时保留英文。需要修改请切换「自定义」。':'随时调整译名，下一段翻译即会采用。';
   const container=$('terms');container.replaceChildren();const search=normalize($('term-search').value);
+  let matches=0;
   terms().forEach((term,index)=>{
-    if(search && !normalize(`${term.source} ${term.target} ${term.aliases}`).includes(search))return;
+    const targets=term.variants?[...new Set(term.variants.map(v=>v.target))].join(' / '):term.target;
+    if(search && !normalize(`${term.source} ${targets} ${term.aliases}`).includes(search))return;
+    matches++;
+    if(isDefault&&matches>termDisplayLimit)return;
     const item=document.createElement('div');item.className='term';
     if(isDefault){
       item.classList.add('default-term');
       const source=document.createElement('strong');source.textContent=term.source;
-      const target=document.createElement('span');target.textContent=term.target;
+      const target=document.createElement('span');target.textContent=targets;
       const link=document.createElement('a');link.href=term.page;link.target='_blank';link.rel='noreferrer';link.textContent='词条 ↗';link.setAttribute('aria-label',`查看 ${term.source} 的 Wiki 词条`);
       item.append(source,target,link);
+      const context=document.createElement('small');context.textContent=term.variants.map(v=>`${v.target}：${v.context}`).join('；');item.append(context);
       if(term.aliases){const aliases=document.createElement('small');aliases.textContent=`别名：${term.aliases.split(';').join(' / ')}`;item.append(aliases);}
       container.append(item);return;
     }
@@ -108,11 +114,14 @@ function renderTerms() {
   });
   $('term-count').textContent=terms().length;$('empty-terms').hidden=terms().length>0;
   $('no-term-matches').hidden=!search || container.childElementCount>0 || terms().length===0;
+  $('more-terms').hidden=!isDefault || matches<=termDisplayLimit;
+  $('more-terms').textContent=`再显示 80 条（已显示 ${Math.min(matches,termDisplayLimit)} / ${matches}）`;
 }
 $('wiki-link').href=wikiSource.url;
 $('wiki-date').textContent=wikiSource.date;
-$('glossary-mode').onchange=()=>{glossaryMode=$('glossary-mode').value;$('term-search').value='';termChanged();renderTerms();status(`已切换到${glossaryMode==='default'?'默认专名表':'自定义专名表'}，下一段请求即会采用。`);};
-$('term-search').oninput=renderTerms;
+$('glossary-mode').onchange=()=>{glossaryMode=$('glossary-mode').value;termDisplayLimit=80;$('term-search').value='';termChanged();renderTerms();status(`已切换到${glossaryMode==='default'?'默认专名表':'自定义专名表'}，下一段请求即会采用。`);};
+$('term-search').oninput=()=>{termDisplayLimit=80;renderTerms();};
+$('more-terms').onclick=()=>{termDisplayLimit+=80;renderTerms();};
 $('add-term').onclick=()=>{if(glossaryMode!=='custom')return;terms().push({source:'',target:'',aliases:'',note:''});$('term-search').value='';termChanged();renderTerms();$('terms').lastElementChild?.querySelector('input')?.focus();};
 $('export-glossary').onclick=()=>download(`译名表-${glossaryMode}-${direction()}.json`,JSON.stringify({version:1,direction:direction(),...(glossaryMode==='default'?{attribution:'小马中文维基贡献者；部分译名来自 EquestriaCN、潮汐字幕社及其他译者',source:wikiSource.url,retrieved:wikiSource.date}:{}),terms:terms()},null,2),'application/json');
 $('direction').onchange=()=>{
@@ -197,7 +206,7 @@ async function translate(partial=false){
       const leading=paragraph.text.match(/^\s*/)[0],trailing=paragraph.text.match(/\s*$/)[0];outputLines[paragraph.line]=leading+result+trailing;
       $('output').value=outputLines.join('\n');counts();completed++;
       if(requestRevision!==revision)note(`第 ${index+1} 段使用了修改前的专名表，可在完成后重译。`);
-      const missing=relevantTerms(paragraph.text,snapshot).filter(t=>!result.includes(t.target));
+      const missing=relevantTerms(paragraph.text,snapshot).filter(t=>!hasExpectedTranslation(result,t));
       if(missing.length)note(`第 ${index+1} 段请核对专名：${missing.map(t=>`${t.source} → ${t.target}`).join('；')}（仅作提示，也可能属于保留外语或普通词义）。`);
     }
     status(stopped?`已停止，保留本次完成的 ${completed} 段。`:`翻译完成 · 本次完成 ${completed} 段，请核对人物口吻与外语保留。`);
