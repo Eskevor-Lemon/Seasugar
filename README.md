@@ -1,4 +1,4 @@
-# MLP Translation
+# Seasugar
 
 英中小说翻译工作台：左侧原文、右侧可编辑译文，专名表优先，严格保留原文换行与空行。
 
@@ -84,6 +84,7 @@ API Key 不写入浏览器存储、代码或日志。专名表、风格要求、
 小马谷背景使用画师 Hellswolfeh 的非 AI 矢量作品，已按其资源使用说明署名；来源、许可说明及处理方式见 [ASSETS.md](ASSETS.md)。页面采用暮光紫、六色细线与星芒装饰，编辑区域保持实底以便阅读。
 ## 修改页面文案
 
+- `about.html`：关于页面、作者主页、素材署名和使用说明。
 - `index.html`：页签标题、主标题、说明、按钮文字及输入框 placeholder。
 - `src/app.js`：进度、成功/错误提示等动态文案。
 - `src/models.js`：预设模型名称、接口和额度说明。
@@ -104,3 +105,6 @@ API Key 不写入浏览器存储、代码或日志。专名表、风格要求、
 用户需填写对应平台的密钥。Gemini 仅免费层享受免费额度，已启用计费的项目可能产生费用；免费层内容可能用于改进产品。OpenRouter 固定使用免费端点，额度耗尽后停止，不回退到付费模型。两者仍受地区、账户、限流与供应变化限制。预设不代表已完成真实文学翻译质量测试。
 
 切换连接选项会清空当前密钥；自定义地址与模型名称单独保留。密钥不写入 localStorage。
+
+网站：https://eskevor-lemon.github.io/Seasugar/ · 关于：https://eskevor-lemon.github.io/Seasugar/about.html
+

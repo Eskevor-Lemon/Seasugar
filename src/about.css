@@ -1,0 +1,20 @@
+.about-main { max-width: 1120px; margin: auto; padding: 44px 32px 0; }
+.about-hero { padding: 38px 0 34px; }
+.about-hero h1 { font-family: Georgia, "Microsoft YaHei", serif; font-size: clamp(32px, 5vw, 52px); line-height: 1.45; margin: 18px 0; letter-spacing: 2px; }
+.about-hero > p { color: var(--muted); font-size: 16px; line-height: 1.9; }
+.author-card { display: flex; align-items: center; flex-wrap: wrap; gap: 18px; padding: 24px 28px; margin-top: 30px; border: 1px solid var(--line); border-radius: 20px; background: linear-gradient(115deg, #fffafdf5, #eaf5f2ed); }
+.author-star { color: #b57bad; font-size: 38px; }
+.author-card h2 { font-size: 23px; margin: 6px 0 0; }
+.author-link { margin-left: auto; font-size: 14px; }
+.about-grid { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 20px; }
+.about-grid .panel { padding: 28px; }
+.about-grid h2 { font-size: 21px; margin: 12px 0 18px; }
+.about-grid h3 { font-size: 16px; margin: 0; }
+.about-grid p { font-size: 14px; line-height: 1.95; margin: 12px 0; }
+.about-grid a { font-size: 14px; text-underline-offset: 4px; overflow-wrap: anywhere; }
+.about-wide { grid-column: 1 / -1; }
+.credits-grid { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 32px; }
+.about-grid .muted { font-size: 12px; }
+.header-actions a { text-underline-offset: 5px; }
+.header-actions [aria-current] { font-weight: 700; }
+@media(max-width:650px) { .about-main { padding: 20px 18px 0; } .about-hero { padding-top: 20px; } .about-grid,.credits-grid { grid-template-columns: 1fr; } .about-grid .panel { padding: 22px; } .wide-break { display:none; } .author-card { padding: 22px; } .author-link { flex-basis: 100%; margin-left: 0; } }

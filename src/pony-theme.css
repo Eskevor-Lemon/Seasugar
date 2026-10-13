@@ -172,3 +172,6 @@ footer .github-link { margin-left: 0; white-space: nowrap; }
 .default-term>span { grid-row: 2; font-size: 13px; color: #806393; overflow-wrap: anywhere; }
 .default-term>a { grid-column: 2; grid-row: 1 / 3; font-size: 10px; align-self: center; }
 .default-term small { grid-column: 1 / -1; font-size: 10px; color: #9b8ba6; overflow-wrap: anywhere; }
+
+.about-link { white-space: nowrap; text-underline-offset: 4px; }
+@media(max-width:520px) { .header-actions { gap: 10px; } .about-link { font-size: 12px; } }
