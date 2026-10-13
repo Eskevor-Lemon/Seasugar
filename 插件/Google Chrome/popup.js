@@ -25,12 +25,22 @@ bind('scan',async()=>{
     const check=document.createElement('input');check.type='checkbox';check.value=m.id;
     const text=document.createElement('span'),title=document.createElement('strong'),context=document.createElement('small');
     title.textContent=`${m.source} → ${m.target}`;context.textContent=m.context;text.append(title,context);label.append(check,text);$('results').append(label);
+    check.dataset.target=m.target;
+    if(m.variants?.length){
+      const notes=document.createElement('small');notes.textContent=m.variants.map(v=>`${v.target}：${v.context}`).join('；');text.append(notes);
+      if(new Set(m.variants.map(v=>v.target)).size>1){
+        const select=document.createElement('select');select.setAttribute('aria-label',`${m.source} 的译名`);
+        for(const target of new Set(m.variants.map(v=>v.target))){const option=document.createElement('option');option.value=target;option.textContent=target;select.append(option);}
+        select.onchange=()=>{check.dataset.target=select.value;title.textContent=`${m.source} → ${select.value}`;};
+        $('results').append(select);
+      }
+    }
   }
   $('preview').hidden=!data.results.length;
   status(`找到 ${data.results.length} 处，请勾选确认。${data.limited?'页面较大，扫描已达上限；可应用后再次扫描剩余内容。':''}`);
 });
 bind('apply',async()=>{
-  const ids=[...$('results').querySelectorAll('input:checked')].map(n=>n.value);
+  const ids=[...$('results').querySelectorAll('input:checked')].map(n=>({id:n.value,target:n.dataset.target}));
   if(!ids.length){status('请先勾选需要保护的名字。');return;}
   const r=await run('apply',[ids]);invalidate();status(`已保护 ${r.applied} 处，跳过 ${r.skipped} 处已变化内容。现在请使用浏览器“翻译成中文”。`);
 });

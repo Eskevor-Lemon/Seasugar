@@ -3,7 +3,7 @@
 来源：[小马灰机 Wiki · 译名表](https://mlp.huijiwiki.com/wiki/译名表)，快照日期 2026-10-12。
 署名：小马中文维基贡献者、EquestriaCN 字幕组、潮汐字幕社及其他译者。译名不是扩展作者原创。
 
-本扩展从 Seasugar 的 Wiki 快照中精选角色名与地名，沿用原配优先、原配空缺用国配的取值规则；只取有译名且单一对应的条目，删除多义候选及未翻译条目，改为 source / target 格式。没有使用 Wiki 图片或角色介绍。运行 `node "插件/Google Chrome/build-glossary.mjs"` 可重新生成。
+本扩展采用 Seasugar 已有 Wiki 快照的全部 2937 行，覆盖所有类别。展开别名并合并同名后为 2991 条，沿用原配优先、原配空缺用国配的取值规则。保留多义候选、分类与备注；暂无译名者保留英文。格式转换为 source / target / variants，多译名在预览时选择，不把多个候选并排写入正文。没有使用 Wiki 图片或角色介绍。运行 `node "插件/Google Chrome/build-glossary.mjs"` 可重新生成。
 
 名称的唯一对应不等于语境无歧义：Rarity、Applejack 等仍可能是普通词。每一处匹配默认不勾选，须查看上下文再应用。
 

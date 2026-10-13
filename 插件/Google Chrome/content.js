@@ -20,18 +20,23 @@
         if(results.length>=1000){limited=true;break;}
         const id=`${generation}:${results.length}`;
         candidates.set(id,{node,original,...m});
-        results.push({id,source:m.source,target:m.target,context:original.slice(Math.max(0,m.start-45),m.end+65)});
+        results.push({id,source:m.source,target:m.target,variants:m.variants,context:original.slice(Math.max(0,m.start-45),m.end+65)});
       }
     }
     return {results,limited};
   }
   function apply(ids) {
     const groups=new Map(); let skipped=0, applied=0;
-    for(const id of new Set(ids)) {
+    const seen=new Set();
+    for(const selection of ids) {
+      const id=typeof selection==='string'?selection:selection.id;
+      if(seen.has(id))continue;seen.add(id);
       const m=candidates.get(id);
       if(!m || !eligible(m.node) || m.node.textContent!==m.original){skipped++;continue;}
+      const target=typeof selection==='string'?m.target:selection.target;
+      if(!(m.variants||[{target:m.target}]).some(v=>v.target===target)){skipped++;continue;}
       if(!groups.has(m.node))groups.set(m.node,[]);
-      groups.get(m.node).push(m);
+      groups.get(m.node).push({...m,target});
     }
     for(const [node,matches] of groups) {
       matches.sort((a,b)=>a.start-b.start);

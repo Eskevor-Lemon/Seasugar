@@ -9,6 +9,15 @@
       if (!source || !target || source.length > 120 || target.length > 120 || /[\r\n]/.test(source + target)) throw Error('词条不能为空、换行或超过 120 字符。');
       if (seen.has(source)) throw Error(`重复原文：${source}`);
       seen.add(source);
+      if (r.variants !== undefined) {
+        if (!Array.isArray(r.variants) || !r.variants.length || r.variants.length > 50) throw Error('译名候选格式无效。');
+        const variants=r.variants.map(v=>{
+          if(typeof v.target!=='string'||!v.target.trim()||v.target.length>120||/[\r\n]/.test(v.target)||typeof v.context!=='string'||v.context.length>2000)throw Error('译名候选格式无效。');
+          return {target:v.target.trim(),context:v.context};
+        });
+        if(!variants.some(v=>v.target===target))throw Error('默认译名须在候选中。');
+        return {source,target,variants};
+      }
       return {source, target};
     });
   }

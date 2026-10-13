@@ -1,9 +1,9 @@
 <!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Seasugar 专名助手</title><link rel="stylesheet" href="popup.css"></head><body>
 <header><span class="star">✦</span><div><h1>Seasugar</h1><p>MLP 专名助手 · Chrome 试用版</p></div></header>
 <p class="intro">先在英文原文中预览并保护名字，再点击浏览器的“翻译成中文”。本扩展不翻译全文，不需要 API Key。</p>
-<label>词表<select id="mode"><option value="default">内置精选专名</option><option value="custom">自定义</option></select></label>
+<label>词表<select id="mode"><option value="default">Wiki 默认专名表</option><option value="custom">自定义</option></select></label>
 <p id="table-info" class="muted"></p>
-<details><summary>编辑自定义词表 / 导入</summary><p class="muted">每行“英文名 → 中文名”。自定义模式独立使用；可先复制内置表再修改。区分大小写。</p><textarea id="custom" rows="5" aria-label="自定义词表" placeholder="Twilight Sparkle → 暮光闪闪"></textarea><div class="row"><button id="copy-default">载入内置表到编辑框</button><button id="save">保存并使用</button></div><label class="file">导入 JSON / TSV / TXT<input id="file" type="file" accept=".json,.tsv,.txt"></label><p class="muted">支持 Seasugar 导出的英译中 JSON。导入只填入编辑框，点击保存后生效。</p><button id="export">导出自定义 JSON</button></details>
+<details><summary>编辑自定义词表 / 导入</summary><p class="muted">每行“英文名 → 中文名”。自定义模式独立使用；可先复制内置表的首选译名再修改（不含多译候选和备注）。区分大小写。</p><textarea id="custom" rows="5" aria-label="自定义词表" placeholder="Twilight Sparkle → 暮光闪闪"></textarea><div class="row"><button id="copy-default">载入内置表到编辑框</button><button id="save">保存并使用</button></div><label class="file">导入 JSON / TSV / TXT<input id="file" type="file" accept=".json,.tsv,.txt"></label><p class="muted">支持 Seasugar 导出的英译中 JSON。导入只填入编辑框，点击保存后生效。</p><button id="export">导出自定义 JSON</button></details>
 <label>扫描范围<select id="scope"><option value="article">自动识别正文</option><option value="page">页面正文文本（不含导航和表单）</option></select></label>
 <div class="row"><button id="scan" class="primary">扫描并预览</button><button id="restore">恢复本扩展替换</button></div>
 <p id="status" role="status" aria-live="polite">请在英文小说页面打开本扩展。</p>
