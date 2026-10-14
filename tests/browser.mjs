@@ -6,6 +6,7 @@ const page = await browser.newPage({viewport:{width:1440,height:1000}});
 const errors=[];page.on('pageerror',e=>errors.push(e.message));page.on('dialog',d=>d.accept());
 try {
  await page.goto(process.env.TEST_URL || 'http://127.0.0.1:5173/');
+ await page.locator('#view-toggle').click();
  assert.equal(await page.locator('#glossary-mode').inputValue(),'default');
  await page.locator('#term-search').fill('Twilight Sparkle');
  assert.ok((await page.locator('#terms').textContent()).includes('暮光闪闪'));

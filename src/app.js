@@ -1,5 +1,6 @@
 import './style.css';
 import './pony-theme.css';
+import { buildPacket } from './packet.js';
 import { splitSource, normalize, glossaryProblems, relevantTerms, buildMessages, requestTranslation, endpointURL, hasExpectedTranslation } from './core.js';
 import { importTerms } from './import.js';
 import { modelPresets } from './models.js';
@@ -162,7 +163,7 @@ $('confirm-import').onclick=()=>{
 };
 function setBusy(value){
   busy=value;
-  for(const id of ['translate','retranslate','direction','only-source','source-file','clear','api-base','api-key','model','model-preset','style'])$(id).disabled=value;
+  for(const id of ['view-toggle','translate','retranslate','direction','only-source','source-file','clear','api-base','api-key','model','model-preset','style'])$(id).disabled=value;
   $('source').readOnly=value;$('output').readOnly=value;$('stop').hidden=!value;$('stop').disabled=false;
 }
 async function translate(partial=false){
@@ -219,3 +220,34 @@ $('translate').onclick=()=>translate();$('retranslate').onclick=()=>translate(tr
 $('stop').onclick=()=>{stopped=true;controller?.abort();$('stop').disabled=true;status('正在停止…');};
 window.addEventListener('beforeunload',event=>{if(busy || $('source').value || $('output').value){event.preventDefault();event.returnValue='';}});
 renderTerms();counts();
+
+let apiView=false;
+$('view-toggle').onclick=()=>{
+  if(busy)return;
+  apiView=!apiView;
+  $('api-view').hidden=!apiView;$('packet-view').hidden=apiView;
+  $('settings-toggle').hidden=!apiView;
+  $('view-toggle').textContent=apiView?'返回资料包':'API 翻译';
+  $('view-toggle').setAttribute('aria-pressed',String(apiView));
+  if(!apiView){$('settings-panel').hidden=true;$('settings-toggle').setAttribute('aria-expanded','false');}
+};
+function packetStale(){
+  $('packet-count').textContent=`${$('packet-input').value.length} 字符`;
+  if($('packet-output').value)$('packet-status').textContent='输入或设置已更新，请重新生成资料包后复制。';
+}
+$('packet-input').addEventListener('input',packetStale);
+for(const id of ['direction','only-source','style','glossary-mode','terms']){
+  $(id).addEventListener('input',packetStale);$(id).addEventListener('change',packetStale);
+}
+function generatePacket(){
+  const problems=glossaryProblems(terms());if(problems.length)throw new Error(problems[0]);
+  const result=buildPacket({text:$('packet-input').value,terms:terms(),direction:direction(),onlySource:$('only-source').checked,style:$('style').value});
+  $('packet-output').value=result.output;
+  $('packet-status').textContent=`已生成 · ${result.count} 条相关专名 · ${result.output.length} 字符。请核对后复制到 DeepSeek；过长时可按章节分批。`;
+  return result.output;
+}
+$('packet-generate').onclick=()=>{try{generatePacket();}catch(e){$('packet-status').textContent=e.message;}};
+$('packet-copy').onclick=async()=>{try{const text=generatePacket();await navigator.clipboard.writeText(text);$('packet-status').textContent='已按最新输入与设置生成并复制资料包。';}catch(e){$('packet-status').textContent=`复制未完成：${e.message}。可手动选择右侧内容复制。`;}};
+$('packet-export').onclick=()=>{try{download('翻译资料包.txt',generatePacket());}catch(e){$('packet-status').textContent=e.message;}};
+$('packet-clear').onclick=()=>{if($('packet-input').value&&!confirm('清空资料包输入和输出？'))return;$('packet-input').value='';$('packet-output').value='';packetStale();$('packet-status').textContent='已清空。';};
+window.addEventListener('beforeunload',event=>{if($('packet-input').value){event.preventDefault();event.returnValue='';}});
