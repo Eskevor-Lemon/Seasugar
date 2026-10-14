@@ -59,3 +59,18 @@ test('legacy custom data wins migration and survives mode and direction switches
   }
   assert.deepEqual(activeGlossary('custom','zh-en',custom),[]);
 });
+
+test('combined mode overrides names and aliases without mutating defaults and restores on deletion',()=>{
+ const row={source:'ponyville',target:'小马谷',aliases:'Twilight Sparkle',note:''};
+ const custom={'en-zh':[row],'zh-en':[]};
+ const merged=activeGlossary('combined','en-zh',custom);
+ assert.deepEqual(glossaryProblems(merged),[]);
+ assert.equal(relevantTerms('Ponyville and Twilight Sparkle',merged)[0].target,'小马谷');
+ assert.equal(merged.some(t=>t.source==='Twilight Sparkle'),false);
+ assert.ok(merged.some(t=>t.source==='Rarity'));
+ assert.equal(defaultGlossaries['en-zh'].find(t=>t.source==='Ponyville').target,'小马镇');
+ assert.deepEqual(activeGlossary('combined','zh-en',custom),defaultGlossaries['zh-en']);
+ assert.equal(initialGlossaryMode({glossaryMode:'combined'},custom),'combined');
+ custom['en-zh'].splice(0,1);
+ assert.deepEqual(activeGlossary('combined','en-zh',custom),defaultGlossaries['en-zh']);
+});

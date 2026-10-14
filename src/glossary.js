@@ -31,9 +31,14 @@ export const defaultGlossaries=Object.freeze({
   'zh-en':makeDefaultTerms(wiki.entries,'zh-en'),
 });
 export function initialGlossaryMode(saved, glossaries) {
-  if(saved?.glossaryMode==='default'||saved?.glossaryMode==='custom')return saved.glossaryMode;
+  if(['default','custom','combined'].includes(saved?.glossaryMode))return saved.glossaryMode;
   return Object.values(glossaries).some(terms=>terms.length)?'custom':'default';
 }
 export function activeGlossary(mode,direction,custom) {
+  if(mode==='combined') {
+    const key=s=>s.trim().toLocaleLowerCase();
+    const overrides=new Set(custom[direction].flatMap(t=>[t.source,...(t.aliases||'').split(/[|;；]/)]).map(key).filter(Boolean));
+    return [...defaultGlossaries[direction].filter(t=>!overrides.has(key(t.source))),...custom[direction]];
+  }
   return mode==='default'?defaultGlossaries[direction]:custom[direction];
 }
