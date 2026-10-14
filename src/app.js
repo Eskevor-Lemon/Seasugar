@@ -15,7 +15,7 @@ let busy = false, controller, stopped = false, revision = 0, translatedSource = 
 const direction = () => $('direction').value;
 let glossaryMode=initialGlossaryMode(saved,glossaries);
 const terms = () => activeGlossary(glossaryMode,direction(),glossaries);
-function status(text) { $('status').textContent = text; }
+function status(text) { $('status').textContent = text; if($('api-view').hidden)$('packet-status').textContent=text; }
 function showNotices() { $('notices').textContent = [...new Set(notices)].join('\n'); }
 function note(text) { notices.push(text); showNotices(); }
 function persist() {
@@ -227,7 +227,7 @@ $('view-toggle').onclick=()=>{
   apiView=!apiView;
   $('api-view').hidden=!apiView;$('packet-view').hidden=apiView;
   $('settings-toggle').hidden=!apiView;
-  $('view-toggle').textContent=apiView?'返回资料包':'API 翻译';
+  $('view-toggle').textContent='API 翻译';
   $('view-toggle').setAttribute('aria-pressed',String(apiView));
   if(!apiView){$('settings-panel').hidden=true;$('settings-toggle').setAttribute('aria-expanded','false');}
 };
@@ -251,3 +251,8 @@ $('packet-copy').onclick=async()=>{try{const text=generatePacket();await navigat
 $('packet-export').onclick=()=>{try{download('翻译资料包.txt',generatePacket());}catch(e){$('packet-status').textContent=e.message;}};
 $('packet-clear').onclick=()=>{if($('packet-input').value&&!confirm('清空资料包输入和输出？'))return;$('packet-input').value='';$('packet-output').value='';packetStale();$('packet-status').textContent='已清空。';};
 window.addEventListener('beforeunload',event=>{if($('packet-input').value){event.preventDefault();event.returnValue='';}});
+
+// Allow the shared navigation on guide/about pages to open the API workspace.
+if(location.hash==='#api')$('view-toggle').click();
+
+$('back-to-packet').onclick=()=>{if(apiView)$('view-toggle').click();};

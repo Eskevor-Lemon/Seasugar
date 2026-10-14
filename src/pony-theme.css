@@ -175,3 +175,11 @@ footer .github-link { margin-left: 0; white-space: nowrap; }
 
 .about-link { white-space: nowrap; text-underline-offset: 4px; }
 @media(max-width:520px) { .header-actions { gap: 10px; } .about-link { font-size: 12px; } }
+
+/* Shared navigation: identical link and button geometry on all pages. */
+.header-actions{gap:10px;flex-wrap:wrap}
+.header-actions .nav-button{display:inline-flex;align-items:center;justify-content:center;min-height:42px;padding:10px 18px;border:1px solid var(--line);border-radius:10px;background:#fff;color:#66517e;font:500 13px/1.4 "Microsoft YaHei",sans-serif;text-decoration:none;white-space:nowrap;box-shadow:none;cursor:pointer}
+.header-actions .nav-button:hover,.header-actions .nav-button[aria-current="page"]{background:#f0e9f8;border-color:#bdacd4}
+.api-tools{display:flex;justify-content:flex-end;margin:0 0 14px}
+@media(max-width:600px){.site-header{height:auto;min-height:80px;flex-wrap:wrap;gap:14px;padding-top:14px;padding-bottom:14px}.header-actions .nav-button{padding:8px 12px;min-height:38px;font-size:12px}}
+.api-tools{gap:10px}.header-actions .nav-button[aria-pressed="true"]{background:#f0e9f8;border-color:#bdacd4}
