@@ -128,7 +128,7 @@ $('glossary-mode').onchange=()=>{glossaryMode=$('glossary-mode').value;termDispl
 $('term-search').oninput=()=>{termDisplayLimit=80;renderTerms();};
 $('more-terms').onclick=()=>{termDisplayLimit+=80;renderTerms();};
 $('add-term').onclick=()=>{if(glossaryMode==='default')return;editableTerms().push({source:'',target:'',aliases:'',note:''});$('term-search').value='';termChanged();renderTerms();$('terms').lastElementChild?.querySelector('input')?.focus();};
-$('export-glossary').onclick=()=>download(`译名表-${glossaryMode}-${direction()}.json`,JSON.stringify({version:1,direction:direction(),...(glossaryMode==='default'?{attribution:'小马中文维基贡献者；部分译名来自 EquestriaCN、潮汐字幕社及其他译者',source:wikiSource.url,retrieved:wikiSource.date}:{}),terms:glossaryMode==='combined'?editableTerms():terms()},null,2),'application/json');
+$('export-glossary').onclick=()=>download(`译名表-${glossaryMode}-${direction()}.json`,JSON.stringify({version:1,direction:direction(),...(glossaryMode==='default'?{attribution:'小马中文维基贡献者；部分译名来自 EquestriaCN、潮汐字幕社及其他译者',source:wikiSource.url,retrieved:wikiSource.date,supplementalSources:[{url:wikiSource.placesURL,retrieved:wikiSource.placesDate}]}:{}),terms:glossaryMode==='combined'?editableTerms():terms()},null,2),'application/json');
 $('direction').onchange=()=>{
   const en=direction()==='en-zh';$('only-label').textContent=en?'只翻译英文':'只翻译中文';$('source-lang').textContent=en?'ENGLISH':'中文';$('target-lang').textContent=en?'中文':'ENGLISH';
   $('term-search').value='';renderTerms();status('翻译方向已切换，专名表单独管理。');

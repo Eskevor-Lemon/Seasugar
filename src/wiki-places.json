@@ -1,0 +1,949 @@
+{
+  "source": "https://mlp.huijiwiki.com/wiki/地点",
+  "retrieved": "2026-10-15",
+  "policy": "只收录页面明确给出的中英对照及明确别名；不自行翻译英文标题或现实地名。",
+  "entries": [
+    {
+      "en": "Equestria",
+      "enAliases": [],
+      "zh": "小马国",
+      "untranslated": false,
+      "group": "地点名称",
+      "note": "地点页面对照",
+      "source": "https://mlp.huijiwiki.com/wiki/地点"
+    },
+    {
+      "en": "Ponyville",
+      "enAliases": [],
+      "zh": "小马镇",
+      "untranslated": false,
+      "group": "地点名称",
+      "note": "地点页面对照",
+      "source": "https://mlp.huijiwiki.com/wiki/地点"
+    },
+    {
+      "en": "Canterlot",
+      "enAliases": [],
+      "zh": "中心城",
+      "untranslated": false,
+      "group": "地点名称",
+      "note": "地点页面对照",
+      "source": "https://mlp.huijiwiki.com/wiki/地点"
+    },
+    {
+      "en": "Cloudsdale",
+      "enAliases": [],
+      "zh": "云中城",
+      "untranslated": false,
+      "group": "地点名称",
+      "note": "地点页面对照",
+      "source": "https://mlp.huijiwiki.com/wiki/地点"
+    },
+    {
+      "en": "Rambling Rock Ridge",
+      "enAliases": [],
+      "zh": "岩石山脊",
+      "untranslated": false,
+      "group": "地点名称",
+      "note": "地点页面对照",
+      "source": "https://mlp.huijiwiki.com/wiki/地点"
+    },
+    {
+      "en": "Everfree Forest",
+      "enAliases": [],
+      "zh": "无尽之森",
+      "untranslated": false,
+      "group": "地点名称",
+      "note": "地点页面对照",
+      "source": "https://mlp.huijiwiki.com/wiki/地点"
+    },
+    {
+      "en": "Manehattan",
+      "enAliases": [
+        "Manehatten"
+      ],
+      "zh": "马哈顿",
+      "untranslated": false,
+      "group": "地点名称",
+      "note": "地点页面对照",
+      "source": "https://mlp.huijiwiki.com/wiki/地点"
+    },
+    {
+      "en": "White Tail Woods",
+      "enAliases": [],
+      "zh": "白尾树林",
+      "untranslated": false,
+      "group": "地点名称",
+      "note": "地点页面对照",
+      "source": "https://mlp.huijiwiki.com/wiki/地点"
+    },
+    {
+      "en": "Froggy Bottom Bogg",
+      "enAliases": [],
+      "zh": "泥蛙沼泽",
+      "untranslated": false,
+      "group": "地点名称",
+      "note": "地点页面对照",
+      "source": "https://mlp.huijiwiki.com/wiki/地点"
+    },
+    {
+      "en": "Appleloosa",
+      "enAliases": [],
+      "zh": "苹果鲁萨",
+      "untranslated": false,
+      "group": "地点名称",
+      "note": "地点页面对照",
+      "source": "https://mlp.huijiwiki.com/wiki/地点"
+    },
+    {
+      "en": "Ghastly Gorge",
+      "enAliases": [],
+      "zh": "天堑峡谷",
+      "untranslated": false,
+      "group": "地点名称",
+      "note": "地点页面对照",
+      "source": "https://mlp.huijiwiki.com/wiki/地点"
+    },
+    {
+      "en": "Dodge Junction",
+      "enAliases": [],
+      "zh": "道奇路口",
+      "untranslated": false,
+      "group": "地点名称",
+      "note": "地点页面对照",
+      "source": "https://mlp.huijiwiki.com/wiki/地点"
+    },
+    {
+      "en": "Dragon Lands",
+      "enAliases": [
+        "Dragon's Lair"
+      ],
+      "zh": "巨龙之地",
+      "untranslated": false,
+      "group": "地点名称",
+      "note": "地点页面对照",
+      "source": "https://mlp.huijiwiki.com/wiki/地点"
+    },
+    {
+      "en": "Frozen North",
+      "enAliases": [],
+      "zh": "冰封北境",
+      "untranslated": false,
+      "group": "地点名称",
+      "note": "地点页面对照",
+      "source": "https://mlp.huijiwiki.com/wiki/地点"
+    },
+    {
+      "en": "Crystal Empire",
+      "enAliases": [],
+      "zh": "水晶帝国",
+      "untranslated": false,
+      "group": "地点名称",
+      "note": "地点页面对照",
+      "source": "https://mlp.huijiwiki.com/wiki/地点"
+    },
+    {
+      "en": "Crystal Mountains",
+      "enAliases": [],
+      "zh": "水晶山脉",
+      "untranslated": false,
+      "group": "地点名称",
+      "note": "地点页面对照",
+      "source": "https://mlp.huijiwiki.com/wiki/地点"
+    },
+    {
+      "en": "Yaket Mountain Range",
+      "enAliases": [],
+      "zh": "牦克托山脉",
+      "untranslated": false,
+      "group": "地点名称",
+      "note": "地点页面对照",
+      "source": "https://mlp.huijiwiki.com/wiki/地点"
+    },
+    {
+      "en": "Winsome Falls",
+      "enAliases": [],
+      "zh": "炫彩瀑布",
+      "untranslated": false,
+      "group": "地点名称",
+      "note": "地点页面对照",
+      "source": "https://mlp.huijiwiki.com/wiki/地点"
+    },
+    {
+      "en": "Tenochtitlan Basin",
+      "enAliases": [],
+      "zh": "特诺奇提特兰盆地",
+      "untranslated": false,
+      "group": "地点名称",
+      "note": "地点页面对照",
+      "source": "https://mlp.huijiwiki.com/wiki/地点"
+    },
+    {
+      "en": "Rainbow Falls",
+      "enAliases": [],
+      "zh": "彩虹瀑布",
+      "untranslated": false,
+      "group": "地点名称",
+      "note": "地点页面对照",
+      "source": "https://mlp.huijiwiki.com/wiki/地点"
+    },
+    {
+      "en": "Fillydelphia",
+      "enAliases": [],
+      "zh": "吠城",
+      "untranslated": false,
+      "group": "地点名称",
+      "note": "地点页面对照",
+      "source": "https://mlp.huijiwiki.com/wiki/地点"
+    },
+    {
+      "en": "Las Pegasus",
+      "enAliases": [
+        "Los Pegasus"
+      ],
+      "zh": "天马维加斯",
+      "untranslated": false,
+      "group": "地点名称",
+      "note": "地点页面对照",
+      "source": "https://mlp.huijiwiki.com/wiki/地点"
+    },
+    {
+      "en": "Applewood",
+      "enAliases": [],
+      "zh": "苹果坞",
+      "untranslated": false,
+      "group": "地点名称",
+      "note": "地点页面对照",
+      "source": "https://mlp.huijiwiki.com/wiki/地点"
+    },
+    {
+      "en": "Coltifornia",
+      "enAliases": [],
+      "zh": "马利福尼亚",
+      "untranslated": false,
+      "group": "地点名称",
+      "note": "地点页面对照",
+      "source": "https://mlp.huijiwiki.com/wiki/地点"
+    },
+    {
+      "en": "Baltimare",
+      "enAliases": [],
+      "zh": "巴尔的马",
+      "untranslated": false,
+      "group": "地点名称",
+      "note": "地点页面对照",
+      "source": "https://mlp.huijiwiki.com/wiki/地点"
+    },
+    {
+      "en": "Hollow Shades",
+      "enAliases": [],
+      "zh": "林阴镇",
+      "untranslated": false,
+      "group": "地点名称",
+      "note": "地点页面对照",
+      "source": "https://mlp.huijiwiki.com/wiki/地点"
+    },
+    {
+      "en": "Well of Shade",
+      "enAliases": [
+        "Well of Shadows"
+      ],
+      "zh": "阴影之井",
+      "untranslated": false,
+      "group": "地点名称",
+      "note": "地点页面对照",
+      "source": "https://mlp.huijiwiki.com/wiki/地点"
+    },
+    {
+      "en": "Galloping Gorge",
+      "enAliases": [],
+      "zh": "疾驰峡谷",
+      "untranslated": false,
+      "group": "地点名称",
+      "note": "地点页面对照",
+      "source": "https://mlp.huijiwiki.com/wiki/地点"
+    },
+    {
+      "en": "Foal Mountain",
+      "enAliases": [],
+      "zh": "稚马山脉",
+      "untranslated": false,
+      "group": "地点名称",
+      "note": "地点页面对照",
+      "source": "https://mlp.huijiwiki.com/wiki/地点"
+    },
+    {
+      "en": "Ponhenge",
+      "enAliases": [
+        "Ponehenge"
+      ],
+      "zh": "石柱阵",
+      "untranslated": false,
+      "group": "地点名称",
+      "note": "地点页面对照",
+      "source": "https://mlp.huijiwiki.com/wiki/地点"
+    },
+    {
+      "en": "Tall Tale",
+      "enAliases": [],
+      "zh": "托特尔镇",
+      "untranslated": false,
+      "group": "地点名称",
+      "note": "地点页面对照",
+      "source": "https://mlp.huijiwiki.com/wiki/地点"
+    },
+    {
+      "en": "Smokey Mountains",
+      "enAliases": [],
+      "zh": "烟云山脉",
+      "untranslated": false,
+      "group": "地点名称",
+      "note": "地点页面对照",
+      "source": "https://mlp.huijiwiki.com/wiki/地点"
+    },
+    {
+      "en": "Vanhoover",
+      "enAliases": [],
+      "zh": "温蹄华",
+      "untranslated": false,
+      "group": "地点名称",
+      "note": "地点页面对照",
+      "source": "https://mlp.huijiwiki.com/wiki/地点"
+    },
+    {
+      "en": "Badlands",
+      "enAliases": [],
+      "zh": "荒原",
+      "untranslated": false,
+      "group": "地点名称",
+      "note": "地点页面对照",
+      "source": "https://mlp.huijiwiki.com/wiki/地点"
+    },
+    {
+      "en": "Unicorn Mountain Range",
+      "enAliases": [],
+      "zh": "独角山脉",
+      "untranslated": false,
+      "group": "地点名称",
+      "note": "地点页面对照",
+      "source": "https://mlp.huijiwiki.com/wiki/地点"
+    },
+    {
+      "en": "Breezie Village",
+      "enAliases": [],
+      "zh": "风仙子之村",
+      "untranslated": false,
+      "group": "地点名称",
+      "note": "地点页面对照",
+      "source": "https://mlp.huijiwiki.com/wiki/地点"
+    },
+    {
+      "en": "Flame Geyser Swamp",
+      "enAliases": [],
+      "zh": "喷火沼泽",
+      "untranslated": false,
+      "group": "地点名称",
+      "note": "地点页面对照",
+      "source": "https://mlp.huijiwiki.com/wiki/地点"
+    },
+    {
+      "en": "Tartarus",
+      "enAliases": [],
+      "zh": "地狱",
+      "untranslated": false,
+      "group": "地点名称",
+      "note": "地点页面对照",
+      "source": "https://mlp.huijiwiki.com/wiki/地点"
+    },
+    {
+      "en": "Neighagra Falls",
+      "enAliases": [],
+      "zh": "啼亚加拉大瀑布",
+      "untranslated": false,
+      "group": "地点名称",
+      "note": "地点页面对照",
+      "source": "https://mlp.huijiwiki.com/wiki/地点"
+    },
+    {
+      "en": "Our Town",
+      "enAliases": [],
+      "zh": "平等镇",
+      "untranslated": false,
+      "group": "地点名称",
+      "note": "地点页面对照",
+      "source": "https://mlp.huijiwiki.com/wiki/地点"
+    },
+    {
+      "en": "Sire's Hollow",
+      "enAliases": [],
+      "zh": "名流谷",
+      "untranslated": false,
+      "group": "地点名称",
+      "note": "地点页面对照",
+      "source": "https://mlp.huijiwiki.com/wiki/地点"
+    },
+    {
+      "en": "Foalida",
+      "enAliases": [],
+      "zh": "佛里达",
+      "untranslated": false,
+      "group": "地点名称",
+      "note": "地点页面对照",
+      "source": "https://mlp.huijiwiki.com/wiki/地点"
+    },
+    {
+      "en": "Seaward Shoals",
+      "enAliases": [],
+      "zh": "近海浅滩",
+      "untranslated": false,
+      "group": "地点名称",
+      "note": "地点页面对照",
+      "source": "https://mlp.huijiwiki.com/wiki/地点"
+    },
+    {
+      "en": "Silver Shoals",
+      "enAliases": [],
+      "zh": "银光浅滩",
+      "untranslated": false,
+      "group": "地点名称",
+      "note": "地点页面对照",
+      "source": "https://mlp.huijiwiki.com/wiki/地点"
+    },
+    {
+      "en": "Maretime Manor",
+      "enAliases": [],
+      "zh": "雌驹时光庄园",
+      "untranslated": false,
+      "group": "地点名称",
+      "note": "地点页面对照",
+      "source": "https://mlp.huijiwiki.com/wiki/地点"
+    },
+    {
+      "en": "Stratusburg",
+      "enAliases": [],
+      "zh": "层云堡",
+      "untranslated": false,
+      "group": "地点名称",
+      "note": "地点页面对照",
+      "source": "https://mlp.huijiwiki.com/wiki/地点"
+    },
+    {
+      "en": "Somnambula",
+      "enAliases": [],
+      "zh": "梦晶村",
+      "untranslated": false,
+      "group": "地点名称",
+      "note": "地点页面对照",
+      "source": "https://mlp.huijiwiki.com/wiki/地点"
+    },
+    {
+      "en": "Hayseed Swamp",
+      "enAliases": [
+        "Hayseed Swamps",
+        "Haysead Swamps"
+      ],
+      "zh": "草籽沼泽",
+      "untranslated": false,
+      "group": "地点名称",
+      "note": "地点页面对照",
+      "source": "https://mlp.huijiwiki.com/wiki/地点"
+    },
+    {
+      "en": "Sweet Acorn Orchard",
+      "enAliases": [],
+      "zh": "香甜橡果园",
+      "untranslated": false,
+      "group": "地点名称",
+      "note": "地点页面对照",
+      "source": "https://mlp.huijiwiki.com/wiki/地点"
+    },
+    {
+      "en": "Silver Stable Community",
+      "enAliases": [],
+      "zh": "银厩伏枥社区",
+      "untranslated": false,
+      "group": "地点名称",
+      "note": "地点页面对照",
+      "source": "https://mlp.huijiwiki.com/wiki/地点"
+    },
+    {
+      "en": "Mt. Everhoof",
+      "enAliases": [],
+      "zh": "无极峰",
+      "untranslated": false,
+      "group": "地点名称",
+      "note": "地点页面对照",
+      "source": "https://mlp.huijiwiki.com/wiki/地点"
+    },
+    {
+      "en": "Trottingham",
+      "enAliases": [],
+      "zh": "驼丁汉",
+      "untranslated": false,
+      "group": "地点名称",
+      "note": "地点页面对照",
+      "source": "https://mlp.huijiwiki.com/wiki/地点"
+    },
+    {
+      "en": "Macintosh Hills",
+      "enAliases": [],
+      "zh": "麦金塔山区",
+      "untranslated": false,
+      "group": "地点名称",
+      "note": "地点页面对照",
+      "source": "https://mlp.huijiwiki.com/wiki/地点"
+    },
+    {
+      "en": "Canter Creek",
+      "enAliases": [],
+      "zh": "奔马溪",
+      "untranslated": false,
+      "group": "地点名称",
+      "note": "地点页面对照",
+      "source": "https://mlp.huijiwiki.com/wiki/地点"
+    },
+    {
+      "en": "New Horseleans",
+      "enAliases": [],
+      "zh": "新马尔良",
+      "untranslated": false,
+      "group": "地点名称",
+      "note": "地点页面对照",
+      "source": "https://mlp.huijiwiki.com/wiki/地点"
+    },
+    {
+      "en": "Green Mountains",
+      "enAliases": [],
+      "zh": "绿色山脉",
+      "untranslated": false,
+      "group": "地点名称",
+      "note": "地点页面对照",
+      "source": "https://mlp.huijiwiki.com/wiki/地点"
+    },
+    {
+      "en": "Toomba Forest",
+      "enAliases": [],
+      "zh": "图巴森林",
+      "untranslated": false,
+      "group": "地点名称",
+      "note": "地点页面对照",
+      "source": "https://mlp.huijiwiki.com/wiki/地点"
+    },
+    {
+      "en": "Dimondia",
+      "enAliases": [],
+      "zh": "宝石王国",
+      "untranslated": false,
+      "group": "地点名称",
+      "note": "地点页面对照",
+      "source": "https://mlp.huijiwiki.com/wiki/地点"
+    },
+    {
+      "en": "Salt Lick City",
+      "enAliases": [],
+      "zh": "盐糊城",
+      "untranslated": false,
+      "group": "地点名称",
+      "note": "地点页面对照",
+      "source": "https://mlp.huijiwiki.com/wiki/地点"
+    },
+    {
+      "en": "Seaddle",
+      "enAliases": [],
+      "zh": "海鞍镇",
+      "untranslated": false,
+      "group": "地点名称",
+      "note": "地点页面对照",
+      "source": "https://mlp.huijiwiki.com/wiki/地点"
+    },
+    {
+      "en": "Chicoltgo",
+      "enAliases": [],
+      "zh": "芝蹄哥",
+      "untranslated": false,
+      "group": "地点名称",
+      "note": "地点页面对照",
+      "source": "https://mlp.huijiwiki.com/wiki/地点"
+    },
+    {
+      "en": "Forbidden Jungle",
+      "enAliases": [],
+      "zh": "丛林禁地",
+      "untranslated": false,
+      "group": "地点名称",
+      "note": "地点页面对照",
+      "source": "https://mlp.huijiwiki.com/wiki/地点"
+    },
+    {
+      "en": "Mareidian",
+      "enAliases": [],
+      "zh": "马里迪恩",
+      "untranslated": false,
+      "group": "地点名称",
+      "note": "地点页面对照",
+      "source": "https://mlp.huijiwiki.com/wiki/地点"
+    },
+    {
+      "en": "Foaledo",
+      "enAliases": [],
+      "zh": "佛骊多",
+      "untranslated": false,
+      "group": "地点名称",
+      "note": "地点页面对照",
+      "source": "https://mlp.huijiwiki.com/wiki/地点"
+    },
+    {
+      "en": "Horseolulu",
+      "enAliases": [],
+      "zh": "火驽鲁鲁",
+      "untranslated": false,
+      "group": "地点名称",
+      "note": "地点页面对照",
+      "source": "https://mlp.huijiwiki.com/wiki/地点"
+    },
+    {
+      "en": "Thrace",
+      "enAliases": [],
+      "zh": "色雷斯王国",
+      "untranslated": false,
+      "group": "地点名称",
+      "note": "地点页面对照",
+      "source": "https://mlp.huijiwiki.com/wiki/地点"
+    },
+    {
+      "en": "Hope Hollow",
+      "enAliases": [],
+      "zh": "希望谷",
+      "untranslated": false,
+      "group": "地点名称",
+      "note": "地点页面对照",
+      "source": "https://mlp.huijiwiki.com/wiki/地点"
+    },
+    {
+      "en": "Hoofington",
+      "enAliases": [],
+      "zh": "喙灵顿",
+      "untranslated": false,
+      "group": "地点名称",
+      "note": "地点页面对照",
+      "source": "https://mlp.huijiwiki.com/wiki/地点"
+    },
+    {
+      "en": "Saddle Arabia",
+      "enAliases": [],
+      "zh": "沙特鞍拉伯",
+      "untranslated": false,
+      "group": "地点名称",
+      "note": "地点页面对照",
+      "source": "https://mlp.huijiwiki.com/wiki/地点"
+    },
+    {
+      "en": "Mustangia",
+      "enAliases": [],
+      "zh": "野马平原",
+      "untranslated": false,
+      "group": "地点名称",
+      "note": "地点页面对照",
+      "source": "https://mlp.huijiwiki.com/wiki/地点"
+    },
+    {
+      "en": "Maretania",
+      "enAliases": [],
+      "zh": "马里塔尼亚",
+      "untranslated": false,
+      "group": "地点名称",
+      "note": "地点页面对照",
+      "source": "https://mlp.huijiwiki.com/wiki/地点"
+    },
+    {
+      "en": "Maretonia",
+      "enAliases": [],
+      "zh": "马骐顿",
+      "untranslated": false,
+      "group": "地点名称",
+      "note": "地点页面对照",
+      "source": "https://mlp.huijiwiki.com/wiki/地点"
+    },
+    {
+      "en": "Hoof City",
+      "enAliases": [],
+      "zh": "马蹄城",
+      "untranslated": false,
+      "group": "地点名称",
+      "note": "地点页面对照",
+      "source": "https://mlp.huijiwiki.com/wiki/地点"
+    },
+    {
+      "en": "Pinto Creek",
+      "enAliases": [],
+      "zh": "骈河城",
+      "untranslated": false,
+      "group": "地点名称",
+      "note": "地点页面对照",
+      "source": "https://mlp.huijiwiki.com/wiki/地点"
+    },
+    {
+      "en": "Flash Freeze Lake",
+      "enAliases": [],
+      "zh": "急冻湖",
+      "untranslated": false,
+      "group": "地点名称",
+      "note": "地点页面对照",
+      "source": "https://mlp.huijiwiki.com/wiki/地点"
+    },
+    {
+      "en": "Whinnyapolis",
+      "enAliases": [],
+      "zh": "骃尼阿波利斯",
+      "untranslated": false,
+      "group": "地点名称",
+      "note": "地点页面对照",
+      "source": "https://mlp.huijiwiki.com/wiki/地点"
+    },
+    {
+      "en": "Puerto Caballo",
+      "enAliases": [],
+      "zh": "卡贝骆港",
+      "untranslated": false,
+      "group": "地点名称",
+      "note": "地点页面对照",
+      "source": "https://mlp.huijiwiki.com/wiki/地点"
+    },
+    {
+      "en": "Flankladesh",
+      "enAliases": [],
+      "zh": "马加拉国",
+      "untranslated": false,
+      "group": "地点名称",
+      "note": "地点页面对照",
+      "source": "https://mlp.huijiwiki.com/wiki/地点"
+    },
+    {
+      "en": "Plunder Cove",
+      "enAliases": [],
+      "zh": "藏宝海湾",
+      "untranslated": false,
+      "group": "地点名称",
+      "note": "地点页面对照",
+      "source": "https://mlp.huijiwiki.com/wiki/地点"
+    },
+    {
+      "en": "Shire Lanka",
+      "enAliases": [],
+      "zh": "嘶犁兰卡",
+      "untranslated": false,
+      "group": "地点名称",
+      "note": "地点页面对照",
+      "source": "https://mlp.huijiwiki.com/wiki/地点"
+    },
+    {
+      "en": "San Franciscolt",
+      "enAliases": [],
+      "zh": "旧蹄山",
+      "untranslated": false,
+      "group": "地点名称",
+      "note": "地点页面对照",
+      "source": "https://mlp.huijiwiki.com/wiki/地点"
+    },
+    {
+      "en": "Turley",
+      "enAliases": [],
+      "zh": "特利镇",
+      "untranslated": false,
+      "group": "地点名称",
+      "note": "地点页面对照",
+      "source": "https://mlp.huijiwiki.com/wiki/地点"
+    },
+    {
+      "en": "Ponderosa",
+      "enAliases": [],
+      "zh": "庞德罗莎",
+      "untranslated": false,
+      "group": "地点名称",
+      "note": "地点页面对照",
+      "source": "https://mlp.huijiwiki.com/wiki/地点"
+    },
+    {
+      "en": "Big Thunder Mine",
+      "enAliases": [],
+      "zh": "鸣雷矿脉",
+      "untranslated": false,
+      "group": "地点名称",
+      "note": "地点页面对照",
+      "source": "https://mlp.huijiwiki.com/wiki/地点"
+    },
+    {
+      "en": "Canterine",
+      "enAliases": [],
+      "zh": "坎特因",
+      "untranslated": false,
+      "group": "地点名称",
+      "note": "地点页面对照",
+      "source": "https://mlp.huijiwiki.com/wiki/地点"
+    },
+    {
+      "en": "Maretropolis",
+      "enAliases": [],
+      "zh": "大都会",
+      "untranslated": false,
+      "group": "地点名称",
+      "note": "地点页面对照",
+      "source": "https://mlp.huijiwiki.com/wiki/地点"
+    },
+    {
+      "en": "Griffonstone",
+      "enAliases": [],
+      "zh": "狮鹫岩",
+      "untranslated": false,
+      "group": "地点名称",
+      "note": "地点页面对照",
+      "source": "https://mlp.huijiwiki.com/wiki/地点"
+    },
+    {
+      "en": "Yakyakistan",
+      "enAliases": [],
+      "zh": "牦牦斯坦",
+      "untranslated": false,
+      "group": "地点名称",
+      "note": "地点页面对照",
+      "source": "https://mlp.huijiwiki.com/wiki/地点"
+    },
+    {
+      "en": "Klugetown",
+      "enAliases": [],
+      "zh": "九流镇",
+      "untranslated": false,
+      "group": "地点名称",
+      "note": "地点页面对照",
+      "source": "https://mlp.huijiwiki.com/wiki/地点"
+    },
+    {
+      "en": "Mount Aris",
+      "enAliases": [],
+      "zh": "艾里斯峰",
+      "untranslated": false,
+      "group": "地点名称",
+      "note": "地点页面对照",
+      "source": "https://mlp.huijiwiki.com/wiki/地点"
+    },
+    {
+      "en": "Seaquestria",
+      "enAliases": [],
+      "zh": "海马国",
+      "untranslated": false,
+      "group": "地点名称",
+      "note": "地点页面对照",
+      "source": "https://mlp.huijiwiki.com/wiki/地点"
+    },
+    {
+      "en": "Land of the Scale Collectors",
+      "enAliases": [],
+      "zh": "猎鳞者的领地",
+      "untranslated": false,
+      "group": "地点名称",
+      "note": "地点页面对照",
+      "source": "https://mlp.huijiwiki.com/wiki/地点"
+    },
+    {
+      "en": "Peaks of Peril",
+      "enAliases": [],
+      "zh": "绝灭岭",
+      "untranslated": false,
+      "group": "地点名称",
+      "note": "地点页面对照",
+      "source": "https://mlp.huijiwiki.com/wiki/地点"
+    },
+    {
+      "en": "Abyssinia",
+      "enAliases": [],
+      "zh": "阿比西尼亚",
+      "untranslated": false,
+      "group": "地点名称",
+      "note": "地点页面对照",
+      "source": "https://mlp.huijiwiki.com/wiki/地点"
+    },
+    {
+      "en": "Panthera",
+      "enAliases": [],
+      "zh": "潘瑟拉",
+      "untranslated": false,
+      "group": "地点名称",
+      "note": "地点页面对照",
+      "source": "https://mlp.huijiwiki.com/wiki/地点"
+    },
+    {
+      "en": "Ornithia",
+      "enAliases": [],
+      "zh": "奥尼西亚",
+      "untranslated": false,
+      "group": "地点名称",
+      "note": "地点页面对照",
+      "source": "https://mlp.huijiwiki.com/wiki/地点"
+    },
+    {
+      "en": "Parrot Peaks",
+      "enAliases": [],
+      "zh": "鹦鹉山脉",
+      "untranslated": false,
+      "group": "地点名称",
+      "note": "地点页面对照",
+      "source": "https://mlp.huijiwiki.com/wiki/地点"
+    },
+    {
+      "en": "Mount Metazoa",
+      "enAliases": [],
+      "zh": "众生峰",
+      "untranslated": false,
+      "group": "地点名称",
+      "note": "地点页面对照",
+      "source": "https://mlp.huijiwiki.com/wiki/地点"
+    },
+    {
+      "en": "Farasi",
+      "enAliases": [],
+      "zh": "法拉希",
+      "untranslated": false,
+      "group": "地点名称",
+      "note": "地点页面对照",
+      "source": "https://mlp.huijiwiki.com/wiki/地点"
+    },
+    {
+      "en": "Luna Bay",
+      "enAliases": [],
+      "zh": "月亮湾",
+      "untranslated": false,
+      "group": "地点名称",
+      "note": "地点页面对照",
+      "source": "https://mlp.huijiwiki.com/wiki/地点"
+    },
+    {
+      "en": "Crystal Sea",
+      "enAliases": [],
+      "zh": "水晶海",
+      "untranslated": false,
+      "group": "地点名称",
+      "note": "地点页面对照",
+      "source": "https://mlp.huijiwiki.com/wiki/地点"
+    },
+    {
+      "en": "Human world",
+      "enAliases": [
+        "Equestria Girls World"
+      ],
+      "zh": "人类世界",
+      "untranslated": false,
+      "group": "地点名称",
+      "note": "地点页面对照",
+      "source": "https://mlp.huijiwiki.com/wiki/地点"
+    },
+    {
+      "en": "Limbo",
+      "enAliases": [],
+      "zh": "不同世界间的虚境",
+      "untranslated": false,
+      "group": "地点名称",
+      "note": "地点页面对照",
+      "source": "https://mlp.huijiwiki.com/wiki/地点"
+    }
+  ]
+}

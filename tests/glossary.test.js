@@ -74,3 +74,20 @@ test('combined mode overrides names and aliases without mutating defaults and re
  custom['en-zh'].splice(0,1);
  assert.deepEqual(activeGlossary('combined','en-zh',custom),defaultGlossaries['en-zh']);
 });
+
+test('place supplement covers every explicit pair in both directions and retains custom priority',async()=>{
+ const {default:places}=await import('../src/wiki-places.json',{with:{type:'json'}});
+ assert.equal(places.entries.length,103);
+ for(const e of places.entries){
+  for(const name of [e.en,...e.enAliases]){
+   const t=defaultGlossaries['en-zh'].find(t=>t.source.toLowerCase()===name.toLowerCase());
+   assert.ok(t?.variants.some(v=>v.target===e.zh),name);
+   const r=defaultGlossaries['zh-en'].find(t=>t.source===e.zh);
+   assert.ok(r?.variants.some(v=>[e.en,...e.enAliases].some(n=>v.target.toLowerCase()===n.toLowerCase())),e.zh);
+  }
+ }
+ assert.equal(defaultGlossaries['en-zh'].length,3005);
+ assert.equal(defaultGlossaries['zh-en'].length,2707);
+ const custom={'en-zh':[{source:'Peaks of Peril',target:'自定义山岭',aliases:'',note:''}],'zh-en':[]};
+ assert.equal(relevantTerms('Peaks of Peril',activeGlossary('combined','en-zh',custom))[0].target,'自定义山岭');
+});

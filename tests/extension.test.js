@@ -1,7 +1,8 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
-import {defaultGlossaries} from '../src/glossary.js';
+import wiki from '../src/wiki-glossary.json' with {type:'json'};
+import {makeDefaultTerms} from '../src/glossary.js';
 import '../插件/Google Chrome/matcher.js';
 const {validate,compile,find}=globalThis.SeasugarMatcher;
 test('extension respects longest names, exact case, unicode boundaries and punctuation',()=>{
@@ -23,7 +24,7 @@ test('packaged extension uses only local assets and minimal permissions',()=>{
   assert.ok(fs.existsSync(new URL(manifest.action.default_popup,base)));
   const data=JSON.parse(fs.readFileSync(new URL('glossary.json',base),'utf8'));
   assert.equal(validate(data.terms).length,2991);
-  assert.deepEqual(data.terms,defaultGlossaries['en-zh'].map(({source,target,variants})=>({source,target,variants})));
+  assert.deepEqual(data.terms,makeDefaultTerms(wiki.entries,'en-zh').map(({source,target,variants})=>({source,target,variants})));
   const cosmos=find('Cosmos',compile(validate(data.terms)))[0];
   assert.ok(cosmos.variants.some(v=>v.target==='纭宇'));
   assert.ok(cosmos.variants.some(v=>v.target==='宇宙洪荒'));
