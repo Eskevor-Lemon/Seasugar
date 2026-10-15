@@ -6,7 +6,7 @@ const page = await browser.newPage({viewport:{width:1440,height:1000}});
 const errors=[];page.on('pageerror',e=>errors.push(e.message));page.on('dialog',d=>d.accept());
 try {
  await page.goto(process.env.TEST_URL || 'http://127.0.0.1:5173/');
- await page.locator('#view-toggle').click();
+ await page.locator('header a[href="./glossary.html"]').click();
  assert.equal(await page.locator('#glossary-mode').inputValue(),'default');
  await page.locator('#term-search').fill('Twilight Sparkle');
  assert.ok((await page.locator('#terms').textContent()).includes('暮光闪闪'));
@@ -15,16 +15,17 @@ try {
  await upload('names.csv',Buffer.from('原文,译名\nMoztrot,莫扎蹄'));
  assert.equal(await page.locator('#term-count').textContent(),'1');
  await upload('conflict.csv',Buffer.from('原文,译名\nMoztrot,错误译名'));
- assert.equal(await page.locator('#terms input').nth(1).inputValue(),'莫扎蹄');
+ assert.equal(await page.locator('#terms tr').first().locator('td').nth(1).textContent(),'莫扎蹄');
  const docx=zipSync({'word/document.xml':strToU8('<w:document xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:body><w:tbl><w:tr><w:tc><w:p><w:r><w:t>原文</w:t></w:r></w:p></w:tc><w:tc><w:p><w:r><w:t>译名</w:t></w:r></w:p></w:tc></w:tr><w:tr><w:tc><w:p><w:r><w:t>Prance</w:t></w:r></w:p></w:tc><w:tc><w:p><w:r><w:t>法兰嘶</w:t></w:r></w:p></w:tc></w:tr></w:tbl></w:body></w:document>')});
  await upload('names.docx',Buffer.from(docx));
  const xlsx=zipSync({'xl/worksheets/sheet1.xml':strToU8('<worksheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main"><sheetData><row r="1"><c r="A1" t="inlineStr"><is><t>Fortepiano</t></is></c><c r="B1" t="inlineStr"><is><t>古钢琴</t></is></c></row></sheetData></worksheet>')});
  await upload('names.xlsx',Buffer.from(xlsx));assert.equal(await page.locator('#term-count').textContent(),'3');
  await page.locator('#glossary-mode').selectOption('default');
- assert.equal(await page.locator('#add-term').isVisible(),false);
+ assert.equal(await page.locator('#add-term').isVisible(),true);
  await page.locator('#glossary-mode').selectOption('custom');
  assert.equal(await page.locator('#term-count').textContent(),'3');
- await page.locator('#direction').selectOption('zh-en');assert.equal(await page.locator('#term-count').textContent(),'0');assert.equal(await page.locator('#only-label').textContent(),'只翻译中文');await page.locator('#direction').selectOption('en-zh');
+ await page.locator('#direction').selectOption('zh-en');assert.equal(await page.locator('#term-count').textContent(),'0');await page.locator('#direction').selectOption('en-zh');
+ await page.goto(new URL('./#api',page.url()).href);
  await page.locator('#settings-toggle').click();await page.locator('#model-preset').selectOption('custom');await page.locator('#api-base').fill('https://translation.example/v1');await page.locator('#model').fill('test-model');await page.locator('#api-key').fill('secret-for-testing');
  const requests=[];let responseIndex=0;let slow=false;
  await page.route('https://translation.example/**',async route=>{

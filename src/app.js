@@ -1,26 +1,23 @@
 import './style.css';
 import './pony-theme.css';
 import { buildPacket } from './packet.js';
-import { splitSource, normalize, glossaryProblems, relevantTerms, buildMessages, requestTranslation, endpointURL, hasExpectedTranslation } from './core.js';
-import { importTerms } from './import.js';
+import { splitSource, glossaryProblems, relevantTerms, buildMessages, requestTranslation, endpointURL, hasExpectedTranslation } from './core.js';
+import { readSettings, patchSettings, cleanTerms, storageKey } from './storage.js';
 import { modelPresets } from './models.js';
-import { activeGlossary, initialGlossaryMode, wikiSource } from './glossary.js';
+import { activeGlossary, initialGlossaryMode } from './glossary.js';
 const $ = id => document.getElementById(id);
-const storageKey = 'mlp-translation-v1';
 let saved = {};
-try { saved = JSON.parse(localStorage.getItem(storageKey) || '{}'); } catch { /* A blocked or corrupt store starts a fresh session. */ }
-const cleanTerms = items => Array.isArray(items) ? items.filter(t=>t && typeof t.source==='string' && typeof t.target==='string').map(t=>({source:t.source,target:t.target,aliases:typeof t.aliases==='string'?t.aliases:'',note:typeof t.note==='string'?t.note:''})) : [];
+try { saved=readSettings(); } catch {}
 const glossaries = {'en-zh':cleanTerms(saved?.glossaries?.['en-zh']), 'zh-en':cleanTerms(saved?.glossaries?.['zh-en'])};
-let busy = false, controller, stopped = false, revision = 0, translatedSource = '', translatedDirection = '', pendingImport = [], notices = [];
+let busy = false, controller, stopped = false, revision = 0, translatedSource = '', translatedDirection = '', notices = [];
 const direction = () => $('direction').value;
 let glossaryMode=initialGlossaryMode(saved,glossaries);
-const editableTerms = () => glossaries[direction()];
 const terms = () => activeGlossary(glossaryMode,direction(),glossaries);
 function status(text) { $('status').textContent = text; if($('api-view').hidden)$('packet-status').textContent=text; }
 function showNotices() { $('notices').textContent = [...new Set(notices)].join('\n'); }
 function note(text) { notices.push(text); showNotices(); }
 function persist() {
-  try { localStorage.setItem(storageKey, JSON.stringify({glossaries, glossaryMode, style:$('style').value, base:$('api-base').value, model:$('model').value, preset:$('model-preset').value, customConnection})); }
+  try { patchSettings({style:$('style').value, base:$('api-base').value, model:$('model').value, preset:$('model-preset').value, customConnection}); }
   catch { note('浏览器无法保存设置，请导出专名表备份。'); }
 }
 for (const [id, key] of [['style','style'],['api-base','base'],['model','model']]) {
@@ -73,98 +70,20 @@ $('source-file').onchange = async event=>{
   const file=event.target.files[0]; if(!file)return;
   try {if(file.size>1024*1024)throw new Error('原文文件最大 1 MB。'); if($('source').value && !confirm('用导入文件替换当前原文？'))return; $('source').value=await file.text();counts();status('原文已导入。');}catch(e){status(e.message);}finally{event.target.value='';}
 };
-function termChanged() {
-  revision++; persist(); $('term-count').textContent=terms().length;
-  notices=notices.filter(n=>!n.startsWith('专名表已更新')&&!n.startsWith('专名冲突：'));
-  if($('output').value)notices.push('专名表已更新：后续请求使用新译名。已有译文不会自动覆盖，可在「更新已有译文」中重译相关段落。');
-  for(const p of glossaryProblems(terms()))notices.push('专名冲突：'+p);
-  showNotices();
-}
-function field(value, placeholder, oninput) {const input=document.createElement('input');input.value=value;input.placeholder=placeholder;input.setAttribute('aria-label',placeholder);input.oninput=()=>oninput(input.value);return input;}
-let termDisplayLimit=80;
-function renderTerms() {
-  const isDefault=glossaryMode==='default';
-  $('glossary-mode').value=glossaryMode;
-  $('export-glossary').textContent=glossaryMode==='combined'?'导出自定义覆盖项':'导出';
-  $('add-term').hidden=isDefault;
-  $('custom-glossary-tools').hidden=isDefault;
-  $('wiki-credit').hidden=glossaryMode==='custom';
-  $('glossary-description').textContent=glossaryMode==='combined'?'默认表持续生效；下方仅编辑你的自定义覆盖项。原文或别名相同（不区分大小写）时优先自定义；删除覆盖项后恢复默认译名。计数为合并后的生效条数。':isDefault?'按 Wiki 译名表：原配优先，空缺时采用国配；两栏均空缺时保留英文。需要修改请切换「自定义」。':'随时调整译名，下一段翻译即会采用。';
-  const container=$('terms');container.replaceChildren();const search=normalize($('term-search').value);
-  let matches=0;
-  const displayed=isDefault?terms():editableTerms();
-  displayed.forEach((term,index)=>{
-    const targets=term.variants?[...new Set(term.variants.map(v=>v.target))].join(' / '):term.target;
-    if(search && !normalize(`${term.source} ${targets} ${term.aliases}`).includes(search))return;
-    matches++;
-    if(isDefault&&matches>termDisplayLimit)return;
-    const item=document.createElement('div');item.className='term';
-    if(isDefault){
-      item.classList.add('default-term');
-      const source=document.createElement('strong');source.textContent=term.source;
-      const target=document.createElement('span');target.textContent=targets;
-      const link=document.createElement('a');link.href=term.page;link.target='_blank';link.rel='noreferrer';link.textContent='词条 ↗';link.setAttribute('aria-label',`查看 ${term.source} 的 Wiki 词条`);
-      item.append(source,target,link);
-      const context=document.createElement('small');context.textContent=term.variants.map(v=>`${v.target}：${v.context}`).join('；');item.append(context);
-      if(term.aliases){const aliases=document.createElement('small');aliases.textContent=`别名：${term.aliases.split(';').join(' / ')}`;item.append(aliases);}
-      container.append(item);return;
+function renderTerms(){ $('glossary-mode').value=glossaryMode; $('term-count').textContent=terms().length; }
+function syncGlossary(){
+  try{const latest=readSettings();const incoming=latest.glossaries||{};
+    const mode=initialGlossaryMode(latest,incoming);
+    if(JSON.stringify(incoming)!==JSON.stringify(glossaries)||mode!==glossaryMode){
+      for(const d of ['en-zh','zh-en'])glossaries[d]=cleanTerms(incoming[d]);
+      glossaryMode=mode;revision++;renderTerms();packetStale();
     }
-    const fields=document.createElement('div');fields.className='term-fields';
-    for(const [key,placeholder] of [['source','原文'],['target','译名']])fields.append(field(term[key],placeholder,v=>{term[key]=v;termChanged();}));
-    const meta=document.createElement('div');meta.className='term-meta';meta.append(field(term.aliases,'别名（用 ; 分隔）',v=>{term.aliases=v;termChanged();}));
-    const remove=document.createElement('button');remove.textContent='删除';remove.setAttribute('aria-label',`删除词条 ${term.source || index+1}`);remove.onclick=()=>{editableTerms().splice(index,1);termChanged();renderTerms();};meta.append(remove);
-    const memo=field(term.note,'备注（可选）',v=>{term.note=v;termChanged();});memo.style.marginTop='6px';
-    item.append(fields,meta,memo);container.append(item);
-  });
-  $('term-count').textContent=terms().length;$('empty-terms').hidden=displayed.length>0;
-  $('empty-terms').textContent=glossaryMode==='combined'?'尚无自定义覆盖项，当前使用全部默认译名。点击 ＋ 或上传词表添加。':'上传译名表，或点击 ＋ 添加。';
-  $('no-term-matches').hidden=!search || container.childElementCount>0 || displayed.length===0;
-  $('more-terms').hidden=!isDefault || matches<=termDisplayLimit;
-  $('more-terms').textContent=`再显示 80 条（已显示 ${Math.min(matches,termDisplayLimit)} / ${matches}）`;
+  }catch{note('无法读取保存的专名表，请检查浏览器存储设置。');}
 }
-$('wiki-link').href=wikiSource.url;
-$('wiki-date').textContent=wikiSource.date;
-$('glossary-mode').onchange=()=>{glossaryMode=$('glossary-mode').value;termDisplayLimit=80;$('term-search').value='';termChanged();renderTerms();status(`已切换到${glossaryMode==='default'?'默认专名表':glossaryMode==='combined'?'默认表＋自定义覆盖':'自定义专名表'}，下一段请求即会采用。`);};
-$('term-search').oninput=()=>{termDisplayLimit=80;renderTerms();};
-$('more-terms').onclick=()=>{termDisplayLimit+=80;renderTerms();};
-$('add-term').onclick=()=>{if(glossaryMode==='default')return;editableTerms().push({source:'',target:'',aliases:'',note:''});$('term-search').value='';termChanged();renderTerms();$('terms').lastElementChild?.querySelector('input')?.focus();};
-$('export-glossary').onclick=()=>download(`译名表-${glossaryMode}-${direction()}.json`,JSON.stringify({version:1,direction:direction(),...(glossaryMode==='default'?{attribution:'小马中文维基贡献者；部分译名来自 EquestriaCN、潮汐字幕社及其他译者',source:wikiSource.url,retrieved:wikiSource.date,supplementalSources:[{url:wikiSource.placesURL,retrieved:wikiSource.placesDate}]}:{}),terms:glossaryMode==='combined'?editableTerms():terms()},null,2),'application/json');
-$('direction').onchange=()=>{
-  const en=direction()==='en-zh';$('only-label').textContent=en?'只翻译英文':'只翻译中文';$('source-lang').textContent=en?'ENGLISH':'中文';$('target-lang').textContent=en?'中文':'ENGLISH';
-  $('term-search').value='';renderTerms();status('翻译方向已切换，专名表单独管理。');
-};
-$('glossary-file').onchange=async event=>{
-  if(glossaryMode==='default'){event.target.value='';return;}
-  const file=event.target.files[0];if(!file)return;
-  try {
-    const result=await importTerms(file);
-    if(result.direction && result.direction!==direction())throw new Error('文件的翻译方向与当前设置不同，请先切换翻译方向再导入。');
-    if(result.terms.length>5000)throw new Error('单次最多导入 5000 个词条。');
-    pendingImport=result.terms.map(term=>({...term,selected:true,replace:false}));
-    $('import-summary').textContent=`${file.name} · 识别到 ${pendingImport.length} 个词条`;
-    renderImport();$('import-dialog').showModal();
-  }catch(e){status(`导入失败：${e.message}`);}finally{event.target.value='';}
-};
-function renderImport() {
-  $('import-rows').replaceChildren();
-  pendingImport.forEach(term=>{
-    const row=document.createElement('div');row.className='import-row';
-    const check=document.createElement('input');check.type='checkbox';check.checked=true;check.setAttribute('aria-label','导入此词条');check.onchange=()=>term.selected=check.checked;
-    const conflict=document.createElement('p');const select=document.createElement('select');select.setAttribute('aria-label','同名冲突处理');
-    for(const [value,label]of [['keep','保留已有译名'],['replace','使用导入的译名']]){const option=document.createElement('option');option.value=value;option.textContent=label;select.append(option);}
-    select.onchange=()=>term.replace=select.value==='replace';
-    const update=()=>{const old=editableTerms().find(t=>normalize(t.source)===normalize(term.source));conflict.textContent=old?`已有译名：${old.target}。重复导入的同名词条也按下方选择处理。`:'如果本次导入有同名词条，默认保留第一条。';};
-    row.append(check,field(term.source,'导入原文',v=>{term.source=v;update();}),field(term.target,'导入译名',v=>term.target=v),conflict,select);update();$('import-rows').append(row);
-  });
-}
-$('confirm-import').onclick=()=>{
-  if(glossaryMode==='default')return;
-  const selected=pendingImport.filter(t=>t.selected);
-  if(selected.some(t=>!t.source.trim()||!t.target.trim())){alert('请补全选中词条的原文和译名。');return;}
-  let added=0,updated=0,skipped=0;
-  for(const t of selected){const old=editableTerms().find(x=>normalize(x.source)===normalize(t.source));const clean={source:t.source.trim(),target:t.target.trim(),aliases:t.aliases,note:t.note};if(old){if(t.replace){Object.assign(old,clean);updated++;}else skipped++;}else{editableTerms().push(clean);added++;}}
-  $('import-dialog').close();termChanged();renderTerms();status(`已新增 ${added} 条、更新 ${updated} 条、保留已有 ${skipped} 条。`);
-};
+window.addEventListener('storage',e=>{if(e.key===storageKey||e.key===null)syncGlossary();});
+window.addEventListener('focus',syncGlossary);
+$('glossary-mode').onchange=()=>{glossaryMode=$('glossary-mode').value;try{patchSettings({glossaryMode});}catch{note('模式未能保存，请检查浏览器存储设置。');}revision++;renderTerms();};
+$('direction').onchange=()=>{const en=direction()==='en-zh';$('only-label').textContent=en?'只翻译英文':'只翻译中文';$('source-lang').textContent=en?'ENGLISH':'中文';$('target-lang').textContent=en?'中文':'ENGLISH';renderTerms();};
 function setBusy(value){
   busy=value;
   for(const id of ['view-toggle','translate','retranslate','direction','only-source','source-file','clear','api-base','api-key','model','model-preset','style'])$(id).disabled=value;
@@ -172,6 +91,7 @@ function setBusy(value){
 }
 async function translate(partial=false){
   if(busy)return;
+  syncGlossary();
   const text=$('source').value;const {lines,paragraphs}=splitSource(text);
   if(!paragraphs.length){status('请先输入原文。');return;}
   if(paragraphs.some(p=>p.text.length>12000)){status('有单段超过 12000 字符，请先拆分该段。');return;}
@@ -240,10 +160,11 @@ function packetStale(){
   if($('packet-output').value)$('packet-status').textContent='输入或设置已更新，请重新生成资料包后复制。';
 }
 $('packet-input').addEventListener('input',packetStale);
-for(const id of ['direction','only-source','style','glossary-mode','terms']){
+for(const id of ['direction','only-source','style','glossary-mode']){
   $(id).addEventListener('input',packetStale);$(id).addEventListener('change',packetStale);
 }
 function generatePacket(){
+  syncGlossary();
   const problems=glossaryProblems(terms());if(problems.length)throw new Error(problems[0]);
   const result=buildPacket({text:$('packet-input').value,terms:terms(),direction:direction(),onlySource:$('only-source').checked,style:$('style').value});
   $('packet-output').value=result.output;
