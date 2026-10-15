@@ -21,8 +21,8 @@ function termChanged(){
     // Preserve the other direction and settings changed in other tabs.
     const latest=readSettings();
     patchSettings({glossaries:{...latest.glossaries,[direction()]:editableTerms()},glossaryMode});
-    dirty=false;status('已保存在此浏览器。回到主页后重新生成资料包即可使用。');
-  }catch{status('保存失败：当前修改仅在本页有效，请立即导出备份，并检查浏览器存储权限或空间。');}
+    dirty=false;status('已保存在此浏览器。回到主页后重新生成资料包即可使用。');return true;
+  }catch{status('保存失败：当前修改仅在本页有效，请立即导出备份，并检查浏览器存储权限或空间。');return false;}
 }
 function field(value,label,change){const input=document.createElement('input');input.value=value||'';input.setAttribute('aria-label',label);input.oninput=()=>change(input.value);return input;}
 function button(text,action){const b=document.createElement('button');b.textContent=text;b.onclick=action;return b;}
@@ -110,6 +110,6 @@ $('confirm-import').onclick=()=>{
   let added=0,updated=0,skipped=0;
   for(const t of selected){const old=editableTerms().find(x=>normalize(x.source)===normalize(t.source));const clean={source:t.source.trim(),target:t.target.trim(),aliases:t.aliases,note:t.note};if(old){if(t.replace){Object.assign(old,clean);updated++;}else skipped++;}else{editableTerms().push(clean);added++;}}
   if(selected.length && glossaryMode==='default')glossaryMode='combined';
-  $('import-dialog').close();termChanged();renderTerms();status(`已新增 ${added} 条、更新 ${updated} 条、保留已有 ${skipped} 条。`);
+  $('import-dialog').close();const stored=termChanged();renderTerms();if(stored)status(`已保存在此浏览器：新增 ${added} 条、更新 ${updated} 条、保留已有 ${skipped} 条。`);
 };
 
