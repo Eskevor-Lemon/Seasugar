@@ -1,5 +1,6 @@
 import wiki from './wiki-glossary.json' with { type: 'json' };
 import places from './wiki-places.json' with { type: 'json' };
+import community from './community-glossary.json' with { type: 'json' };
 
 export const wikiSource = Object.freeze({url:wiki.source, date:wiki.retrieved, placesURL:places.source, placesDate:places.retrieved});
 
@@ -16,7 +17,7 @@ export function supplementPlaces(base, additions) {
   }
   return result;
 }
-export const defaultEntries=supplementPlaces(wiki.entries,places.entries);
+export const defaultEntries=supplementPlaces(supplementPlaces(wiki.entries,places.entries),community.entries);
 
 // The Wiki has context-dependent homonyms. Keep all choices in a single term
 // so duplicate rows do not become blocking conflicts or silently lose meanings.

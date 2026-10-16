@@ -9,7 +9,7 @@ test('default tables are complete, immutable and conflict-free in both direction
     assert.ok(terms.length>2500);
     assert.deepEqual(glossaryProblems(terms),[]);
     assert.throws(()=>terms.push({}));
-    assert.ok(terms.every(t=>t.page.startsWith('https://mlp.huijiwiki.com/wiki/')));
+    assert.ok(terms.every(t=>t.page.startsWith('https://mlp.huijiwiki.com/wiki/')||t.page.startsWith('https://github.com/Eskevor-Lemon/Seasugar/blob/main/GLOSSARY-SOURCES.md#')));
   }
   assert.equal(defaultGlossaries['en-zh'].find(t=>t.source==='Twilight Sparkle').target,'暮光闪闪');
   assert.equal(defaultGlossaries['zh-en'].find(t=>t.source==='暮光闪闪').target,'Twilight Sparkle');
@@ -86,8 +86,22 @@ test('place supplement covers every explicit pair in both directions and retains
    assert.ok(r?.variants.some(v=>[e.en,...e.enAliases].some(n=>v.target.toLowerCase()===n.toLowerCase())),e.zh);
   }
  }
- assert.equal(defaultGlossaries['en-zh'].length,3005);
- assert.equal(defaultGlossaries['zh-en'].length,2707);
+ assert.equal(defaultGlossaries['en-zh'].length,3013);
+ assert.equal(defaultGlossaries['zh-en'].length,2718);
  const custom={'en-zh':[{source:'Peaks of Peril',target:'自定义山岭',aliases:'',note:''}],'zh-en':[]};
  assert.equal(relevantTerms('Peaks of Peril',activeGlossary('combined','en-zh',custom))[0].target,'自定义山岭');
+});
+
+
+test('document supplement deduplicates pairs and preserves alternatives in both directions',async()=>{
+ const {default:document}=await import('../src/community-glossary.json',{with:{type:'json'}});
+ for(const entry of document.entries){
+  const forward=defaultGlossaries['en-zh'].find(t=>t.source.toLowerCase()===entry.en.toLowerCase());
+  assert.equal(forward.variants.filter(v=>v.target===entry.zh).length,1,`${entry.en} → ${entry.zh}`);
+  const reverse=defaultGlossaries['zh-en'].find(t=>t.source===entry.zh);
+  assert.ok(reverse.variants.some(v=>v.target.toLowerCase()===entry.en.toLowerCase() || wiki.entries.some(e=>e.en.toLowerCase()===v.target.toLowerCase() && e.enAliases.some(a=>a.toLowerCase()===entry.en.toLowerCase()))),entry.en);
+ }
+ assert.equal(defaultGlossaries['en-zh'].find(t=>t.source==='Canterlot High').target,'坎特拉高中');
+ assert.equal(defaultGlossaries['en-zh'].find(t=>t.source==='AJ').variants.length,1);
+ assert.ok(defaultGlossaries['en-zh'].find(t=>t.source==='trot').note.includes('按句意选择'));
 });

@@ -70,7 +70,7 @@ $('next').onclick=()=>{if(guard()){page++;renderTerms();}};
 $('glossary-mode').onchange=()=>{if(!guard()){$('glossary-mode').value=glossaryMode;return;}glossaryMode=$('glossary-mode').value;termChanged();page=0;renderTerms();};
 let lastDirection=direction();
 $('direction').onchange=()=>{if(!guard()||dirty){$('direction').value=lastDirection;if(dirty)status('请先导出备份；当前修改尚未保存，暂不能切换方向。');return;}lastDirection=direction();try{const latest=readSettings();glossaries[direction()]=cleanTerms(latest.glossaries?.[direction()]);}catch{}page=0;renderTerms();};
-function exportTable(custom){if(editing){status('请先保存正在编辑的词条，再导出备份。');return;}download(`译名表-${custom?'自定义':'生效'}-${direction()}.json`,JSON.stringify({version:1,direction:direction(),...(!custom?{source:wikiSource.url,supplementalSources:[{url:wikiSource.placesURL}],attribution:'小马中文维基贡献者；部分译名来自 EquestriaCN、潮汐字幕社及其他译者'}:{}),terms:custom?editableTerms():terms()},null,2));}
+function exportTable(custom){if(editing){status('请先保存正在编辑的词条，再导出备份。');return;}download(`译名表-${custom?'自定义':'生效'}-${direction()}.json`,JSON.stringify({version:1,direction:direction(),...(!custom?{source:wikiSource.url,supplementalSources:[{url:wikiSource.placesURL},{document:'译名中英对照.docx',url:'https://github.com/Eskevor-Lemon/Seasugar/blob/main/GLOSSARY-SOURCES.md'}],attribution:'小马中文维基贡献者；部分译名来自 EquestriaCN、潮汐字幕社及其他译者'}:{}),terms:custom?editableTerms():terms()},null,2));}
 $('export-custom').onclick=()=>exportTable(true);$('export-effective').onclick=()=>exportTable(false);
 window.addEventListener('beforeunload',e=>{if(editing||dirty){e.preventDefault();e.returnValue='';}});
 window.addEventListener('storage',e=>{
